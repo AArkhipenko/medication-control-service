@@ -1,4 +1,5 @@
 using AArkhipenko.Core;
+using AArkhipenko.Logging;
 using MedicationControl.Service.API.Extensions;
 using MedicationControl.Service.API.Settings;
 using MedicationControl.Service.Application;
@@ -23,6 +24,15 @@ namespace MedicationControl.Service.API
 			// AArkhipenko.Core
 			builder.Services.AddCustomHealthCheck();
 			builder.Services.AddVersioning();
+			// AArkhipenko.Logging
+			if (builder.Environment.IsDevelopment())
+			{
+				builder.Logging.AddConsoleLogging();
+			}
+			else
+			{
+				builder.Logging.AddFileLogging();
+			}
 
 			// Методы расширения проектов
 			builder.Services.AddMediatrExtension();
@@ -31,9 +41,6 @@ namespace MedicationControl.Service.API
 			// Добавление возможности работы с JWT
 			builder.Services.AddAuthJwt(builder.Configuration);
 
-			// Добавление работы с логером
-			builder.Logging.AddLoggingExtension(builder.Environment.IsDevelopment());
-
 			var app = builder.Build();
 
 			// Методы расширения из nuget-пакетов
@@ -41,6 +48,8 @@ namespace MedicationControl.Service.API
 			app.UseRequestChainMiddleware();
 			app.UseExceptionMiddleware();
 			app.UseCustomHealthCheck();
+			// AArkhipenko.Logging
+			app.UseLoggingMiddleware();
 
 			// Использование Swagger
 			app.UseSwaggerExtension(builder.Environment.IsDevelopment());
