@@ -1,4 +1,5 @@
 ﻿using AArkhipenko.Keycloak;
+using AArkhipenko.UserHelper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,7 +20,8 @@ namespace MedicationControl.Service.Infrastructure
 			=> services
 			.AddDbContext(configuration)
 			.AddRepositories()
-			.AddKeycloakAuth(configuration);
+			.AddKeycloakAuth(configuration)
+			.AddNpgsqlUserProvider();
 
 		/// <summary>
 		/// Добавление контекста БД
