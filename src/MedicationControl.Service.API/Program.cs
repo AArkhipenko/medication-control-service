@@ -30,6 +30,9 @@ namespace MedicationControl.Service.API
 		public static void Main(string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
+#if DEBUG
+			builder.Configuration.AddYamlFile("DebugConfig.yml", false);
+#endif
 
 			builder.Services.AddControllers();
 			// Методы расширения из nuget-пакетов
