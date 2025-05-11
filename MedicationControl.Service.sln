@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F5182F1E-2D53-40DA-9693-AD9C8D6FA4B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{CDEBC7DE-1E70-4959-BF4E-35BB170047D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{14BF4ABE-574A-4463-B518-522E0CA78BC3}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicationControl.Service.API", "src\MedicationControl.Service.API\MedicationControl.Service.API.csproj", "{35681A51-6134-4597-93D3-10BEB247B858}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicationControl.Service.API.Tests", "test\MedicationControl.Service.API.Tests\MedicationControl.Service.API.Tests.csproj", "{ACC9DBBE-1236-4F38-8F2A-8440BA40BB07}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35681A51-6134-4597-93D3-10BEB247B858}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35681A51-6134-4597-93D3-10BEB247B858}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35681A51-6134-4597-93D3-10BEB247B858}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35681A51-6134-4597-93D3-10BEB247B858}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACC9DBBE-1236-4F38-8F2A-8440BA40BB07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACC9DBBE-1236-4F38-8F2A-8440BA40BB07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACC9DBBE-1236-4F38-8F2A-8440BA40BB07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACC9DBBE-1236-4F38-8F2A-8440BA40BB07}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{35681A51-6134-4597-93D3-10BEB247B858} = {F5182F1E-2D53-40DA-9693-AD9C8D6FA4B5}
+		{ACC9DBBE-1236-4F38-8F2A-8440BA40BB07} = {CDEBC7DE-1E70-4959-BF4E-35BB170047D7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {799E95C8-1233-4FC4-B238-9ECEAAADF916}
+	EndGlobalSection
+EndGlobal
