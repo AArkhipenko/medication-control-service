@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using MedicationControl.Service.Application.Example.Queries;
-using MedicationControl.Service.Domain.Core.Logging;
+using AArkhipenko.Core.Logging;
 
 namespace MedicationControl.Service.Application.Example.Hadlers
 {
@@ -15,11 +15,8 @@ namespace MedicationControl.Service.Application.Example.Hadlers
 		/// Initializes a new instance of the <see cref="GetRandomQueryHandler"/> class.
 		/// </summary>
 		/// <param name="logger"><see cref="ILogger"/></param>
-		/// <param name="contextAccessor"><see cref="IHttpContextAccessor"/></param>
-		public GetRandomQueryHandler(
-			ILogger<GetRandomQueryHandler> logger,
-			IHttpContextAccessor contextAccessor)
-			: base(logger, contextAccessor) { }
+		public GetRandomQueryHandler(ILogger<GetRandomQueryHandler> logger)
+			: base(logger) { }
 
 		/// <inheritdoc/>
 		public Task<IEnumerable<int>> Handle(GetRandomQuery request, CancellationToken cancellationToken)

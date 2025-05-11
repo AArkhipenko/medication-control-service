@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using MedicationControl.Service.Application.Example.Queries;
-using MedicationControl.Service.Domain.Core.Exceptions;
-using MedicationControl.Service.Domain.Core.Logging;
+using AArkhipenko.Core.Logging;
+using AArkhipenko.Core.Exceptions;
 
 namespace MedicationControl.Service.Application.Example.Hadlers
 {
@@ -16,11 +16,8 @@ namespace MedicationControl.Service.Application.Example.Hadlers
 		/// Initializes a new instance of the <see cref="GetExceptionQueryHandler"/> class.
 		/// </summary>
 		/// <param name="logger"><see cref="ILogger"/></param>
-		/// <param name="contextAccessor"><see cref="IHttpContextAccessor"/></param>
-		public GetExceptionQueryHandler(
-			ILogger<GetExceptionQueryHandler> logger,
-			IHttpContextAccessor contextAccessor)
-			: base(logger, contextAccessor) { }
+		public GetExceptionQueryHandler(ILogger<GetExceptionQueryHandler> logger)
+			: base(logger) { }
 
 		/// <inheritdoc/>
 		public Task<Unit> Handle(GetExceptionQuery request, CancellationToken cancellationToken)
