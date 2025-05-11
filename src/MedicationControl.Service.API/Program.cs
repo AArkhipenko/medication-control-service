@@ -1,9 +1,10 @@
 using AArkhipenko.Core;
+using AArkhipenko.Keycloak.Security;
 using AArkhipenko.Logging;
 using AArkhipenko.Swagger;
-using MedicationControl.Service.API.Extensions;
-using MedicationControl.Service.API.Settings;
+using AArkhipenko.Swagger.Models;
 using MedicationControl.Service.Application;
+using MedicationControl.Service.Infrastructure;
 using Microsoft.OpenApi.Models;
 
 namespace MedicationControl.Service.API
@@ -45,14 +46,14 @@ namespace MedicationControl.Service.API
 				builder.Logging.AddFileLogging();
 			}
 			// AArkhipenko.Swagger
-			builder.Services.AddCustomSwagger(_versions);
+			builder.Services.AddCustomSwagger(_versions, new[]
+			{
+				new SecurityModel(KeycloakSecurityScheme.DefaultKey, KeycloakSecurityScheme.Default)
+			});
 
 			// Методы расширения проектов
 			builder.Services.AddMediatrExtension();
-			// Добавление работы со Swagger
-			builder.Services.AddSwaggerExtension();
-			// Добавление возможности работы с JWT
-			builder.Services.AddAuthJwt(builder.Configuration);
+			builder.Services.AddInfrastructure(builder.Configuration);
 
 			var app = builder.Build();
 
