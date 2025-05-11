@@ -1,8 +1,10 @@
 using AArkhipenko.Core;
 using AArkhipenko.Logging;
+using AArkhipenko.Swagger;
 using MedicationControl.Service.API.Extensions;
 using MedicationControl.Service.API.Settings;
 using MedicationControl.Service.Application;
+using Microsoft.OpenApi.Models;
 
 namespace MedicationControl.Service.API
 {
@@ -11,6 +13,15 @@ namespace MedicationControl.Service.API
 	/// </summary>
 	public class Program
 	{
+		private readonly static OpenApiInfo[] _versions = new[]
+{
+			new OpenApiInfo
+			{
+				Version = "v10",
+				Title = "MedicationControl.Service API v1.0"
+			}
+		};
+
 		/// <summary>
 		/// Входная точка приложения
 		/// </summary>
@@ -33,6 +44,8 @@ namespace MedicationControl.Service.API
 			{
 				builder.Logging.AddFileLogging();
 			}
+			// AArkhipenko.Swagger
+			builder.Services.AddCustomSwagger(_versions);
 
 			// Методы расширения проектов
 			builder.Services.AddMediatrExtension();
@@ -50,9 +63,9 @@ namespace MedicationControl.Service.API
 			app.UseCustomHealthCheck();
 			// AArkhipenko.Logging
 			app.UseLoggingMiddleware();
+			// AArkhipenko.Swagger
+			app.UseCustomSwagger(_versions);
 
-			// Использование Swagger
-			app.UseSwaggerExtension(builder.Environment.IsDevelopment());
 			// Configure the HTTP request pipeline
 			app.UseHttpsRedirection();
 			app.UseAuthentication();
