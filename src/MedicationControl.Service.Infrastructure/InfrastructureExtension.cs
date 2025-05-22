@@ -1,5 +1,10 @@
 ﻿using AArkhipenko.Keycloak;
 using AArkhipenko.UserHelper;
+using MedicationControl.Service.Domain.Repositories;
+using MedicationControl.Service.Infrastructure.Database;
+using MedicationControl.Service.Infrastructure.Database.Repositories;
+using MedicationControl.Service.Infrastructure.Helper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,7 +26,8 @@ namespace MedicationControl.Service.Infrastructure
 			.AddDbContext(configuration)
 			.AddRepositories()
 			.AddKeycloakAuth(configuration)
-			.AddNpgsqlUserProvider();
+			.AddNpgsqlUserProvider()
+			.AddAutoMapper();
 
 		/// <summary>
 		/// Добавление контекста БД
@@ -30,6 +36,15 @@ namespace MedicationControl.Service.Infrastructure
 		/// <returns><see cref="IServiceCollection"/></returns>
 		private static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
 		{
+			var connectionString = configuration.GetConnectionString(Consts.ConnectionString) ??
+				throw new ApplicationException($"Не задана строка подключения к БД контроля приема лекарственных средств. " +
+					$"Раздел ConnectionStrings:{Consts.ConnectionString}.");
+
+			services.AddDbContext<ControlContext>((options) =>
+			{
+				options.UseNpgsql(connectionString);
+			});
+
 			return services;
 		}
 
@@ -39,6 +54,16 @@ namespace MedicationControl.Service.Infrastructure
 		/// <param name="services"><see cref="IServiceCollection"/></param>
 		/// <returns><see cref="IServiceCollection"/></returns>
 		private static IServiceCollection AddRepositories(this IServiceCollection services)
-			=> services;
+			=> services
+			.AddScoped<IPersonMedicamentRepository, PersonMedicamentRepository>();
+
+		/// <summary>
+		/// Добавление автомапперов
+		/// </summary>
+		/// <param name="services"><see cref="IServiceCollection"/></param>
+		/// <returns><see cref="IServiceCollection"/></returns>
+		private static IServiceCollection AddAutoMapper(this IServiceCollection services)
+			=> services
+			.AddAutoMapper(typeof(DbDomainProfile));
 	}
 }

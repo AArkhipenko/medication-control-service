@@ -4,11 +4,13 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="AArkhipenko.Logging" Version="7.0.0" />
 		<PackageReference Include="AArkhipenko.Swagger" Version="7.0.0" />
+		<PackageReference Include="NetEscapades.Configuration.Yaml" Version="3.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
