@@ -1,7 +1,6 @@
 ﻿using AArkhipenko.Core.Exceptions;
 using AArkhipenko.Core.Logging;
 using AutoMapper;
-using MedicationControl.Service.Domain.Models;
 using MedicationControl.Service.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -65,6 +64,18 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 				var model = this._mapper.Map<DomainExt.PersonMedicament>(member);
 
 				return model;
+			}
+		}
+
+		/// <inheritdoc/>
+		public async Task UpdateAsync(DomainExt.PersonMedicament model, CancellationToken cancellationToken)
+		{
+			using (_ = base.BeginLoggingScope())
+			{
+				var member = this._mapper.Map<TableExt.PersonMedicament>(model);
+
+				this._context.PersonMedicaments.Update(member);
+				await this._context.SaveChangesAsync(cancellationToken);
 			}
 		}
 	}
