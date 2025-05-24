@@ -45,7 +45,7 @@ namespace MedicationControl.Service.API.Controllers.V10
 		/// Создание связи пользователя с лекарственным средством
 		/// </summary>
 		/// <param name="request"><inheritdoc cref="CreatePersonMedicamentDTO" path="/summary"/></param>
-		/// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
 		/// <returns>ИД новой записи</returns>
 		[HttpPost]
 		public async Task<ActionResult<int>> CreateAsync(CreatePersonMedicamentDTO request, CancellationToken cancellationToken)
@@ -62,16 +62,35 @@ namespace MedicationControl.Service.API.Controllers.V10
 		/// Обновление связи пользователя с лекарственным средством
 		/// </summary>
 		/// <param name="request"><inheritdoc cref="PersonMedicamentDTO" path="/summary"/></param>
-		/// <param name="cancellationToken"><see cref="CancellationToken"/></param>
-		/// <returns>ИД новой записи</returns>
+		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
+		/// <returns>Ничего</returns>
 		[HttpPatch]
-		public async Task<ActionResult<int>> UpdateAsync(PersonMedicamentDTO request, CancellationToken cancellationToken)
+		public async Task<IActionResult> UpdateAsync(PersonMedicamentDTO request, CancellationToken cancellationToken)
 		{
 			using (_ = base.BeginLoggingScope())
 			{
 				var user = await this._userProvider.GetUserAsync(cancellationToken);
 
-				return await this._mediator.Send(new CreatePersonMedicamentCommand(user.Id, request), cancellationToken);
+				await this._mediator.Send(new UpdatePersonMedicamentCommand(user.Id, request), cancellationToken);
+				return NoContent();
+			}
+		}
+
+		/// <summary>
+		/// Удаление связи пользователя с лекарственным средством
+		/// </summary>
+		/// <param name="id">ИД связи пользователя с лекарственным средством</param>
+		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
+		/// <returns>Ничего</returns>
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
+		{
+			using (_ = base.BeginLoggingScope())
+			{
+				var user = await this._userProvider.GetUserAsync(cancellationToken);
+
+				await this._mediator.Send(new DeletePersonMedicamentCommand(user.Id, id), cancellationToken);
+				return NoContent();
 			}
 		}
 	}
