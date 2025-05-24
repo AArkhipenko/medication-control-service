@@ -13,7 +13,7 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 	/// <summary>
 	/// Реализация <see cref="IPersonMedicamentRepository"/>
 	/// </summary>
-	internal class PersonMedicamentRepository : LoggerWrapper, IPersonMedicamentRepository
+	internal class PersonMedicamentRepository : GeneralRepository<TableExt.PersonMedicament>, IPersonMedicamentRepository
 	{
 		private readonly ControlContext _context;
 		private readonly IMapper _mapper;
@@ -29,7 +29,7 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 			ControlContext context,
 			IMapper mapper,
 			ILogger<PersonMedicamentRepository> logger)
-			: base(logger)
+			: base(context, logger)
 		{
 			this._context = context ?? throw new ArgumentNullException(nameof(context));
 			this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -54,15 +54,9 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		{
 			using (_ = base.BeginLoggingScope())
 			{
-				var member = await this._context.PersonMedicaments.FindAsync(personMedicamentId, cancellationToken);
-				if(member is null)
-				{
-					var tableName = this._context.PersonMedicaments.EntityType.GetTableName();
-					throw new NotFoundException($"В таблице {tableName} не найдена запись с id={personMedicamentId}");
-				}
+				var member = await base.GetEntityAsync(personMedicamentId, cancellationToken);
 
 				var model = this._mapper.Map<DomainExt.PersonMedicament>(member);
-
 				return model;
 			}
 		}
@@ -75,6 +69,18 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 				var member = this._mapper.Map<TableExt.PersonMedicament>(model);
 
 				this._context.PersonMedicaments.Update(member);
+				await this._context.SaveChangesAsync(cancellationToken);
+			}
+		}
+
+		/// <inheritdoc/>
+		public async Task DeleteAsync(int personMedicamentId, CancellationToken cancellationToken)
+		{
+			using (_ = base.BeginLoggingScope())
+			{
+				var member = await base.GetEntityAsync(personMedicamentId, cancellationToken);
+
+				this._context.PersonMedicaments.Remove(member);
 				await this._context.SaveChangesAsync(cancellationToken);
 			}
 		}
