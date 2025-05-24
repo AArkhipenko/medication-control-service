@@ -1,6 +1,8 @@
-﻿using AArkhipenko.Core.Logging;
+﻿using AArkhipenko.Core.Exceptions;
+using AArkhipenko.Core.Logging;
 using AutoMapper;
 using MedicationControl.Service.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 using DomainExt = MedicationControl.Service.Domain.Models;
@@ -38,12 +40,42 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		{
 			using(_ = base.BeginLoggingScope())
 			{
-				var obj = this._mapper.Map<TableExt.PersonMedicament>(model);
+				var member = this._mapper.Map<TableExt.PersonMedicament>(model);
 
-				await this._context.PersonMedicaments.AddAsync(obj, cancellationToken);
+				await this._context.PersonMedicaments.AddAsync(member, cancellationToken);
 				await this._context.SaveChangesAsync(cancellationToken);
 
-				return obj.Id;
+				return member.Id;
+			}
+		}
+
+		/// <inheritdoc/>
+		public async Task<DomainExt.PersonMedicament> GetAsync(int personMedicamentId, CancellationToken cancellationToken)
+		{
+			using (_ = base.BeginLoggingScope())
+			{
+				var member = await this._context.PersonMedicaments.FindAsync(personMedicamentId, cancellationToken);
+				if(member is null)
+				{
+					var tableName = this._context.PersonMedicaments.EntityType.GetTableName();
+					throw new NotFoundException($"В таблице {tableName} не найдена запись с id={personMedicamentId}");
+				}
+
+				var model = this._mapper.Map<DomainExt.PersonMedicament>(member);
+
+				return model;
+			}
+		}
+
+		/// <inheritdoc/>
+		public async Task UpdateAsync(DomainExt.PersonMedicament model, CancellationToken cancellationToken)
+		{
+			using (_ = base.BeginLoggingScope())
+			{
+				var member = this._mapper.Map<TableExt.PersonMedicament>(model);
+
+				this._context.PersonMedicaments.Update(member);
+				await this._context.SaveChangesAsync(cancellationToken);
 			}
 		}
 	}

@@ -55,7 +55,7 @@ namespace MedicationControl.Service.API
 			});
 
 			// Методы расширения проектов
-			builder.Services.AddMediatrExtension();
+			builder.Services.AddApplication();
 			builder.Services.AddInfrastructure(builder.Configuration);
 
 			var app = builder.Build();
