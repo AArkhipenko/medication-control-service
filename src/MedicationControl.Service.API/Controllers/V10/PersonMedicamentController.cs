@@ -16,9 +16,10 @@ namespace MedicationControl.Service.API.Controllers.V10
 	/// <summary>
 	/// Контроллер-пример
 	/// </summary>
-    [ApiController]
+	[ApiController]
 	[ApiVersion("10", Deprecated = false)]
 	[Route("person-medicaments/v{version:apiVersion}")]
+	[Authorize("UserRole")]
 	public class PersonMedicamentController : ApiAuthBaseController
 	{
 		private readonly IUserProvider _userProvider;
@@ -47,8 +48,24 @@ namespace MedicationControl.Service.API.Controllers.V10
 		/// <param name="cancellationToken"><see cref="CancellationToken"/></param>
 		/// <returns>ИД новой записи</returns>
 		[HttpPost]
-		[Authorize("UserRole")]
 		public async Task<ActionResult<int>> CreateAsync(CreatePersonMedicamentDTO request, CancellationToken cancellationToken)
+		{
+			using (_ = base.BeginLoggingScope())
+			{
+				var user = await this._userProvider.GetUserAsync(cancellationToken);
+
+				return await this._mediator.Send(new CreatePersonMedicamentCommand(user.Id, request), cancellationToken);
+			}
+		}
+
+		/// <summary>
+		/// Обновление связи пользователя с лекарственным средством
+		/// </summary>
+		/// <param name="request"><inheritdoc cref="PersonMedicamentDTO" path="/summary"/></param>
+		/// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+		/// <returns>ИД новой записи</returns>
+		[HttpPatch]
+		public async Task<ActionResult<int>> UpdateAsync(PersonMedicamentDTO request, CancellationToken cancellationToken)
 		{
 			using (_ = base.BeginLoggingScope())
 			{
