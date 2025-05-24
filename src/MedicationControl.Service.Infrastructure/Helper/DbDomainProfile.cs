@@ -16,6 +16,7 @@ namespace MedicationControl.Service.Infrastructure.Helper
 		public DbDomainProfile()
 		{
 			CreateMap<DomainExt.PersonMedicament, TableExt.PersonMedicament>();
+			CreateMap<TableExt.PersonMedicament, DomainExt.PersonMedicament>();
 		}
     }
 }
