@@ -97,7 +97,7 @@ namespace MedicationControl.Service.API.Controllers.V10
 				var user = await this._userProvider.GetUserAsync(cancellationToken);
 
 				await this._mediator.Send(
-					new DeletePersonMedicamentCommand(user.Id, id),
+					new DeleteMedicationScheduleCommand(user.Id, id),
 					cancellationToken);
 
 				return NoContent();
