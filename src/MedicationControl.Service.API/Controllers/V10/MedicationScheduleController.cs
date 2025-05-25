@@ -1,8 +1,8 @@
 using AArkhipenko.UserHelper.Providers;
 using Asp.Versioning;
 using MediatR;
-using MedicationControl.Service.Application.PersonMedicament.Commands;
-using MedicationControl.Service.Application.PersonMedicament.DTO;
+using MedicationControl.Service.Application.MedicationSchedule.Commands;
+using MedicationControl.Service.Application.MedicationSchedule.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -44,18 +44,18 @@ namespace MedicationControl.Service.API.Controllers.V10
 		/// <summary>
 		/// Создание расписания приема лекарственного средства
 		/// </summary>
-		/// <param name="request"><inheritdoc cref="CreatePersonMedicamentDTO" path="/summary"/></param>
+		/// <param name="request"><inheritdoc cref="CreateMedicationScheduleDTO" path="/summary"/></param>
 		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
 		/// <returns>ИД новой записи</returns>
 		[HttpPost]
-		public async Task<ActionResult<int>> CreateAsync(CreatePersonMedicamentDTO request, CancellationToken cancellationToken)
+		public async Task<ActionResult<int>> CreateAsync(CreateMedicationScheduleDTO request, CancellationToken cancellationToken)
 		{
 			using (_ = base.BeginLoggingScope())
 			{
 				var user = await this._userProvider.GetUserAsync(cancellationToken);
 
 				var id = await this._mediator.Send(
-					new CreatePersonMedicamentCommand(user.Id, request),
+					new CreateMedicationScheduleCommand(user.Id, request),
 					cancellationToken);
 
 				return Ok(id);
@@ -65,18 +65,39 @@ namespace MedicationControl.Service.API.Controllers.V10
 		/// <summary>
 		/// Изменение расписания приема лекарственного средства
 		/// </summary>
-		/// <param name="request"><inheritdoc cref="PersonMedicamentDTO" path="/summary"/></param>
+		/// <param name="request"><inheritdoc cref="MedicationScheduleDTO" path="/summary"/></param>
 		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
 		/// <returns>ИД новой записи</returns>
 		[HttpPatch]
-		public async Task<IActionResult> UpdateAsync(PersonMedicamentDTO request, CancellationToken cancellationToken)
+		public async Task<IActionResult> UpdateAsync(MedicationScheduleDTO request, CancellationToken cancellationToken)
 		{
 			using (_ = base.BeginLoggingScope())
 			{
 				var user = await this._userProvider.GetUserAsync(cancellationToken);
 
 				await this._mediator.Send(
-					new UpdatePersonMedicamentCommand(user.Id, request),
+					new UpdateMedicationScheduleCommand(user.Id, request),
+					cancellationToken);
+
+				return NoContent();
+			}
+		}
+
+		/// <summary>
+		/// Удаление расписания приема лекарственного средства
+		/// </summary>
+		/// <param name="id">ИД расписания приема лекарственного средства</param>
+		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
+		/// <returns>Ничего</returns>
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
+		{
+			using (_ = base.BeginLoggingScope())
+			{
+				var user = await this._userProvider.GetUserAsync(cancellationToken);
+
+				await this._mediator.Send(
+					new DeletePersonMedicamentCommand(user.Id, id),
 					cancellationToken);
 
 				return NoContent();
