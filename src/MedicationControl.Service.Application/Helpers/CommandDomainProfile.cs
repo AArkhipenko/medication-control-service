@@ -6,15 +6,16 @@ using PersonMedicamentExt = MedicationControl.Service.Application.PersonMedicame
 namespace MedicationControl.Service.Application.Helper
 {
 	/// <summary>
-	/// Автомаппер DTO на доменную модель
+	/// Автомаппер запросов на доменную модель
 	/// </summary>
-	internal class DtoDomainProfile : Profile
+	internal class CommandDomainProfile : Profile
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="DtoDomainProfile"/> class.
+		/// Initializes a new instance of the <see cref="CommandDomainProfile"/> class.
 		/// </summary>
-		public DtoDomainProfile()
+		public CommandDomainProfile()
 		{
+			// Лекарства назначенные пользователю
 			CreateMap<PersonMedicamentExt.UpdatePersonMedicamentCommand, DomainExt.PersonMedicament>()
 				.ForMember(domain => domain.Id, dto => dto.MapFrom(x => x.Request.PersonMedicamentId))
 				.ForMember(domain => domain.UserId, dto => dto.MapFrom(x => x.UserId))
