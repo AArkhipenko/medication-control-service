@@ -18,7 +18,7 @@ namespace MedicationControl.Service.API.Controllers.V10
 	/// </summary>
 	[ApiController]
 	[ApiVersion("10", Deprecated = false)]
-	[Route("medication-schedule/v{version:apiVersion}")]
+	[Route("medication-schedules/v{version:apiVersion}")]
 	[Authorize("UserRole")]
 	public class MedicationScheduleController : ApiAuthBaseController
 	{
@@ -54,7 +54,32 @@ namespace MedicationControl.Service.API.Controllers.V10
 			{
 				var user = await this._userProvider.GetUserAsync(cancellationToken);
 
-				return await this._mediator.Send(new CreatePersonMedicamentCommand(user.Id, request), cancellationToken);
+				var id = await this._mediator.Send(
+					new CreatePersonMedicamentCommand(user.Id, request),
+					cancellationToken);
+
+				return Ok(id);
+			}
+		}
+
+		/// <summary>
+		/// Изменение расписания приема лекарственного средства
+		/// </summary>
+		/// <param name="request"><inheritdoc cref="PersonMedicamentDTO" path="/summary"/></param>
+		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
+		/// <returns>ИД новой записи</returns>
+		[HttpPatch]
+		public async Task<IActionResult> UpdateAsync(PersonMedicamentDTO request, CancellationToken cancellationToken)
+		{
+			using (_ = base.BeginLoggingScope())
+			{
+				var user = await this._userProvider.GetUserAsync(cancellationToken);
+
+				await this._mediator.Send(
+					new UpdatePersonMedicamentCommand(user.Id, request),
+					cancellationToken);
+
+				return NoContent();
 			}
 		}
 	}

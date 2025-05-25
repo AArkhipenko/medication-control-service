@@ -36,6 +36,13 @@ namespace MedicationControl.Service.Application.Helper
 				.ForMember(domain => domain.DayTimeTypeId, dto => dto.MapFrom(x => x.Request.DayTimeTypeId))
 				.ForMember(domain => domain.Time, dto => dto.MapFrom(x => x.Request.DayTimeTypeId.HasValue ? null : x.Request.Time))
 				.ForMember(domain => domain.Amount, dto => dto.MapFrom(x => x.Request.Amount));
+
+			CreateMap<MedicationScheduleExt.UpdateMedicationScheduleCommand, DomainExt.MedicationSchedule>()
+				.ForMember(domain => domain.Id, dto => dto.MapFrom(x => x.Request.MedicationScheduleId))
+				.ForMember(domain => domain.PersonMedicamentId, dto => dto.MapFrom(x => x.Request.PersonMedicamentId))
+				.ForMember(domain => domain.DayTimeTypeId, dto => dto.MapFrom(x => x.Request.DayTimeTypeId))
+				.ForMember(domain => domain.Time, dto => dto.MapFrom(x => x.Request.DayTimeTypeId.HasValue ? null : x.Request.Time))
+				.ForMember(domain => domain.Amount, dto => dto.MapFrom(x => x.Request.Amount));
 		}
 	}
 }

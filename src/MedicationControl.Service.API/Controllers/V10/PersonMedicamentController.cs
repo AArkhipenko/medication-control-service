@@ -54,7 +54,11 @@ namespace MedicationControl.Service.API.Controllers.V10
 			{
 				var user = await this._userProvider.GetUserAsync(cancellationToken);
 
-				return await this._mediator.Send(new CreatePersonMedicamentCommand(user.Id, request), cancellationToken);
+				var id = await this._mediator.Send(
+					new CreatePersonMedicamentCommand(user.Id, request),
+					cancellationToken);
+
+				return Ok(id);
 			}
 		}
 
@@ -71,7 +75,10 @@ namespace MedicationControl.Service.API.Controllers.V10
 			{
 				var user = await this._userProvider.GetUserAsync(cancellationToken);
 
-				await this._mediator.Send(new UpdatePersonMedicamentCommand(user.Id, request), cancellationToken);
+				await this._mediator.Send(
+					new UpdatePersonMedicamentCommand(user.Id, request),
+					cancellationToken);
+
 				return NoContent();
 			}
 		}
@@ -89,7 +96,10 @@ namespace MedicationControl.Service.API.Controllers.V10
 			{
 				var user = await this._userProvider.GetUserAsync(cancellationToken);
 
-				await this._mediator.Send(new DeletePersonMedicamentCommand(user.Id, id), cancellationToken);
+				await this._mediator.Send(
+					new DeletePersonMedicamentCommand(user.Id, id),
+					cancellationToken);
+
 				return NoContent();
 			}
 		}
