@@ -33,6 +33,18 @@ namespace MedicationControl.Service.Domain.Repositories
 		/// <param name="medicationScheduleId">ИД записи</param>
 		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
 		/// <returns><inheritdoc cref="MedicationSchedule" path="/summary"/></returns>
-		Task<MedicationSchedule> GetAsync(int medicationScheduleId, CancellationToken cancellationToken);
+		Task<MedicationSchedule> GetAsync(
+			int medicationScheduleId,
+			CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Изменения расписания приема лекарств
+		/// </summary>
+		/// <param name="model"><inheritdoc cref="MedicationSchedule" path="/summary"/></param>
+		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
+		/// <returns>Ничего</returns>
+		Task UpdateAsync(
+			MedicationSchedule model,
+			CancellationToken cancellationToken);
 	}
 }

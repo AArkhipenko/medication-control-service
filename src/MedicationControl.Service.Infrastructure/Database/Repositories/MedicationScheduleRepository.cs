@@ -73,5 +73,17 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 				return model;
 			}
 		}
+
+		/// <inheritdoc/>
+		public async Task UpdateAsync(DomainExt.MedicationSchedule model, CancellationToken cancellationToken)
+		{
+			using (_ = base.BeginLoggingScope())
+			{
+				var member = this._mapper.Map<TableExt.MedicationSchedule>(model);
+
+				this._context.MedicationSchedules.Update(member);
+				await this._context.SaveChangesAsync(cancellationToken);
+			}
+		}
 	}
 }
