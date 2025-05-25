@@ -16,5 +16,15 @@ namespace MedicationControl.Service.Domain.Repositories
 		Task<IEnumerable<MedicationSchedule>> GetListByPersonMedicamentAsync(
 			int personMedicamentId,
 			CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Создание расписания приема лекарств
+		/// </summary>
+		/// <param name="model"><inheritdoc cref="MedicationSchedule" path="/summary"/></param>
+		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
+		/// <returns>ИД новой записи</returns>
+		Task<int> CreateAsync(
+			MedicationSchedule model,
+			CancellationToken cancellationToken);
 	}
 }

@@ -15,8 +15,13 @@ namespace MedicationControl.Service.Infrastructure.Helper
 		/// </summary>
 		public DbDomainProfile()
 		{
+			// Связь лекарства с пользователем
 			CreateMap<DomainExt.PersonMedicament, TableExt.PersonMedicament>();
 			CreateMap<TableExt.PersonMedicament, DomainExt.PersonMedicament>();
+
+			// Расписание приема лекарств
+			CreateMap<DomainExt.MedicationSchedule, TableExt.MedicationSchedule>();
+			CreateMap<TableExt.MedicationSchedule, DomainExt.MedicationSchedule>();
 		}
     }
 }
