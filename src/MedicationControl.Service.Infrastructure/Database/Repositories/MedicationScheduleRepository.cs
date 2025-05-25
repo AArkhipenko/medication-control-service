@@ -85,5 +85,17 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 				await this._context.SaveChangesAsync(cancellationToken);
 			}
 		}
+
+		/// <inheritdoc/>
+		public async Task DeleteAsync(int medicationScheduleId, CancellationToken cancellationToken)
+		{
+			using (_ = base.BeginLoggingScope())
+			{
+				var member = await base.GetEntityAsync(medicationScheduleId, cancellationToken);
+
+				this._context.MedicationSchedules.Remove(member);
+				await this._context.SaveChangesAsync(cancellationToken);
+			}
+		}
 	}
 }
