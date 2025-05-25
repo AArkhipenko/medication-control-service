@@ -3,6 +3,7 @@
 using DomainExt = MedicationControl.Service.Domain.Models;
 using PersonMedicamentExt = MedicationControl.Service.Application.PersonMedicament.Commands;
 using MedicationScheduleExt = MedicationControl.Service.Application.MedicationSchedule.Commands;
+using MedicamentPurchaseExt = MedicationControl.Service.Application.MedicamentPurchase.Commands;
 
 namespace MedicationControl.Service.Application.Helper
 {
@@ -43,6 +44,13 @@ namespace MedicationControl.Service.Application.Helper
 				.ForMember(domain => domain.DayTimeTypeId, dto => dto.MapFrom(x => x.Request.DayTimeTypeId))
 				.ForMember(domain => domain.Time, dto => dto.MapFrom(x => x.Request.DayTimeTypeId.HasValue ? null : x.Request.Time))
 				.ForMember(domain => domain.Amount, dto => dto.MapFrom(x => x.Request.Amount));
+
+			// Закупки лекарств
+			CreateMap<MedicamentPurchaseExt.CreateMedicamentPurchaseCommand, DomainExt.MedicamentPurchase>()
+				.ForMember(domain => domain.PersonMedicamentId, dto => dto.MapFrom(x => x.Request.PersonMedicamentId))
+				.ForMember(domain => domain.PurchaseAmount, dto => dto.MapFrom(x => x.Request.PurchaseAmount))
+				.ForMember(domain => domain.RemainingAmount, dto => dto.MapFrom(x => x.Request.RemainingAmount))
+				.ForMember(domain => domain.Date, dto => dto.MapFrom(x => x.Request.Date));
 		}
 	}
 }

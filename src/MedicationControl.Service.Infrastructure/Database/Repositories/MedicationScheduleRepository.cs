@@ -11,7 +11,7 @@ using TableExt = MedicationControl.Service.Infrastructure.Database.Tables;
 namespace MedicationControl.Service.Infrastructure.Database.Repositories
 {
 	/// <summary>
-	/// Реализация <see cref="IPersonMedicamentRepository"/>
+	/// Реализация <see cref="IMedicationScheduleRepository"/>
 	/// </summary>
 	internal class MedicationScheduleRepository : GeneralRepository<TableExt.MedicationSchedule>, IMedicationScheduleRepository
 	{

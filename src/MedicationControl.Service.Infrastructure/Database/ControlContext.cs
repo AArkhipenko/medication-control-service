@@ -32,11 +32,17 @@ namespace MedicationControl.Service.Infrastructure.Database
 		/// </summary>
 		public DbSet<MedicationSchedule> MedicationSchedules { get; set; }
 
+		/// <summary>
+		/// Закупка лекарств
+		/// </summary>
+		public DbSet<MedicamentPurchase> MedicamentPurchases { get; set; }
+
 		/// <inheritdoc/>
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			PersonMedicament.Configure(modelBuilder);
 			MedicationSchedule.Configure(modelBuilder);
+			MedicamentPurchase.Configure(modelBuilder);
 		}
 	}
 }
