@@ -6,6 +6,9 @@ namespace MedicationControl.Service.Application.PersonMedicament.Queries
 	/// <summary>
 	/// Запрос на получение информации о связи пользователя с лекарственным средством
 	/// </summary>
+	/// <remarks>
+	/// Здесь реализована логика проверки пользователя из токена и пользователя из записи в БД
+	/// </remarks>
     internal class GetPersonMedicamentQuery : IRequest<PersonMedicamentDTO>
     {
 		/// <summary>
