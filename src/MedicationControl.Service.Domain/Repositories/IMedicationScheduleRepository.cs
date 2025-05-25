@@ -26,5 +26,13 @@ namespace MedicationControl.Service.Domain.Repositories
 		Task<int> CreateAsync(
 			MedicationSchedule model,
 			CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Получение записи
+		/// </summary>
+		/// <param name="medicationScheduleId">ИД записи</param>
+		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
+		/// <returns><inheritdoc cref="MedicationSchedule" path="/summary"/></returns>
+		Task<MedicationSchedule> GetAsync(int medicationScheduleId, CancellationToken cancellationToken);
 	}
 }

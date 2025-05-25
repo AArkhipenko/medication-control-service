@@ -18,7 +18,7 @@ namespace MedicationControl.Service.API.Controllers.V10
 	/// </summary>
 	[ApiController]
 	[ApiVersion("10", Deprecated = false)]
-	[Route("medication-schedule/v{version:apiVersion}")]
+	[Route("medication-schedules/v{version:apiVersion}")]
 	[Authorize("UserRole")]
 	public class MedicationScheduleController : ApiAuthBaseController
 	{

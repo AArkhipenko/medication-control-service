@@ -61,5 +61,17 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 				return member.Id;
 			}
 		}
+
+		/// <inheritdoc/>
+		public async Task<DomainExt.MedicationSchedule> GetAsync(int medicationScheduleId, CancellationToken cancellationToken)
+		{
+			using (_ = base.BeginLoggingScope())
+			{
+				var member = await base.GetEntityAsync(medicationScheduleId, cancellationToken);
+
+				var model = this._mapper.Map<DomainExt.MedicationSchedule>(member);
+				return model;
+			}
+		}
 	}
 }
