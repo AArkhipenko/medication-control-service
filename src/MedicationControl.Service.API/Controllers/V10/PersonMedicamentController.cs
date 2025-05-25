@@ -14,7 +14,7 @@ using System.Text;
 namespace MedicationControl.Service.API.Controllers.V10
 {
 	/// <summary>
-	/// Контроллер-пример
+	/// Контроллер для работу лекарственными средствами, что назначены пользователю
 	/// </summary>
 	[ApiController]
 	[ApiVersion("10", Deprecated = false)]

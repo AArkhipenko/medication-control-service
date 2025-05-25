@@ -55,7 +55,8 @@ namespace MedicationControl.Service.Infrastructure
 		/// <returns><see cref="IServiceCollection"/></returns>
 		private static IServiceCollection AddRepositories(this IServiceCollection services)
 			=> services
-			.AddScoped<IPersonMedicamentRepository, PersonMedicamentRepository>();
+			.AddScoped<IPersonMedicamentRepository, PersonMedicamentRepository>()
+			.AddScoped<IMedicationScheduleRepository, MedicationScheduleRepository>();
 
 		/// <summary>
 		/// Добавление автомапперов

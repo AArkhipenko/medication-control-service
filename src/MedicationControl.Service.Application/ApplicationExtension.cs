@@ -45,6 +45,7 @@ namespace MedicationControl.Service.Application
 		/// <returns><see cref="IServiceCollection"/></returns>
 		private static IServiceCollection AddAutoMapper(this IServiceCollection services)
 			=> services
-			.AddAutoMapper(typeof(DtoDomainProfile));
+			.AddAutoMapper(typeof(CommandDomainProfile))
+			.AddAutoMapper(typeof(DomainDtoProfile));
 	}
 }
