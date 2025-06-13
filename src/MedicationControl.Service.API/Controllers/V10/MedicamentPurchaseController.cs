@@ -61,5 +61,26 @@ namespace MedicationControl.Service.API.Controllers.V10
 				return Ok(id);
 			}
 		}
+
+		/// <summary>
+		/// Изменение закупки лекарства
+		/// </summary>
+		/// <param name="request"><inheritdoc cref="MedicamentPurchaseDTO" path="/summary"/></param>
+		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
+		/// <returns>Ничего</returns>
+		[HttpPatch]
+		public async Task<IActionResult> UpdateAsync(MedicamentPurchaseDTO request, CancellationToken cancellationToken)
+		{
+			using (_ = base.BeginLoggingScope())
+			{
+				var user = await this._userProvider.GetUserAsync(cancellationToken);
+
+				var id = await this._mediator.Send(
+					new CreateMedicamentPurchaseCommand(user.Id, request),
+					cancellationToken);
+
+				return NoContent();
+			}
+		}
 	}
 }
