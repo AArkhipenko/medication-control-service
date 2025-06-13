@@ -61,5 +61,18 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 				return model;
 			}
 		}
+
+		/// <inheritdoc/>
+		public async Task UpdateAsync(DomainExt.MedicamentPurchase model, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			using (_ = base.BeginLoggingScope())
+			{
+				var member = this._mapper.Map<TableExt.MedicamentPurchase>(model);
+
+				this._context.MedicamentPurchases.Update(member);
+				await this._context.SaveChangesAsync(cancellationToken);
+			}
+		}
 	}
 }
