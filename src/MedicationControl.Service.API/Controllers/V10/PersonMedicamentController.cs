@@ -3,6 +3,7 @@ using Asp.Versioning;
 using MediatR;
 using MedicationControl.Service.Application.PersonMedicament.Commands;
 using MedicationControl.Service.Application.PersonMedicament.DTO;
+using MedicationControl.Service.Application.PersonMedicament.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -101,6 +102,26 @@ namespace MedicationControl.Service.API.Controllers.V10
 					cancellationToken);
 
 				return NoContent();
+			}
+		}
+
+		/// <summary>
+		/// Получение полного списка лекарств назначенных пользователю
+		/// </summary>
+		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
+		/// <returns>Полный список лекарств, назначенных пользователю</returns>
+		[HttpGet("list")]
+		public async Task<ActionResult<IEnumerable<PersonMedicamentDTO>>> GetListAsync(CancellationToken cancellationToken)
+		{
+			using (_ = base.BeginLoggingScope())
+			{
+				var user = await this._userProvider.GetUserAsync(cancellationToken);
+
+				var list = await this._mediator.Send(
+					new GetPersonMedicamentListQuery(user.Id),
+					cancellationToken);
+
+				return Ok(list);
 			}
 		}
 	}
