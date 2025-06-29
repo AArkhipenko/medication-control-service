@@ -38,6 +38,7 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		/// <inheritdoc/>
 		public async Task<int> CreateAsync(DomainExt.MedicamentPurchase model, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var member = this._mapper.Map<TableExt.MedicamentPurchase>(model);

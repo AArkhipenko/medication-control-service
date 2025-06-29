@@ -42,6 +42,7 @@ namespace MedicationControl.Service.Application.MedicationSchedule.Handlers
 		/// <inheritdoc/>
 		public async Task Handle(DeleteMedicationScheduleCommand request, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var member = await this._mediator.Send(

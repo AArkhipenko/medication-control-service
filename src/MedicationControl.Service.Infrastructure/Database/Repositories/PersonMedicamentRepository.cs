@@ -38,7 +38,8 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		/// <inheritdoc/>
 		public async Task<int> CreateAsync(DomainExt.PersonMedicament model, CancellationToken cancellationToken)
 		{
-			using(_ = base.BeginLoggingScope())
+			cancellationToken.ThrowIfCancellationRequested();
+			using (_ = base.BeginLoggingScope())
 			{
 				var member = this._mapper.Map<TableExt.PersonMedicament>(model);
 
@@ -52,6 +53,7 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		/// <inheritdoc/>
 		public async Task<DomainExt.PersonMedicament> GetAsync(int personMedicamentId, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var member = await base.GetEntityAsync(personMedicamentId, cancellationToken);
@@ -64,6 +66,7 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		/// <inheritdoc/>
 		public async Task UpdateAsync(DomainExt.PersonMedicament model, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var member = this._mapper.Map<TableExt.PersonMedicament>(model);
@@ -76,6 +79,7 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		/// <inheritdoc/>
 		public async Task DeleteAsync(int personMedicamentId, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var member = await base.GetEntityAsync(personMedicamentId, cancellationToken);

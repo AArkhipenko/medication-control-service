@@ -43,6 +43,7 @@ namespace MedicationControl.Service.Application.PersonMedicament.Handlers
 		/// <inheritdoc/>
 		public async Task Handle(UpdatePersonMedicamentCommand request, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var model = this._mapper.Map<DomainExt.PersonMedicament>(request);
