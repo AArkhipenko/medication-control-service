@@ -88,5 +88,20 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 				await this._context.SaveChangesAsync(cancellationToken);
 			}
 		}
+
+		/// <inheritdoc/>
+		public async Task<IEnumerable<DomainExt.PersonMedicament>> GetListByUserAsync(int userId, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			using (_ = base.BeginLoggingScope())
+			{
+				var list = await this._context.PersonMedicaments
+					.AsNoTracking()
+					.Where(x => x.UserId == userId)
+					.ToListAsync();
+
+				return list.Select(x => this._mapper.Map<DomainExt.PersonMedicament>(x));
+			}
+		}
 	}
 }
