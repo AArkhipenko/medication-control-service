@@ -8,6 +8,6 @@
 		/// <summary>
 		/// ИД закупки лекарства
 		/// </summary>
-		public int MedicationPurchaseId { get; set; }
+		public int MedicamentPurchaseId { get; set; }
 	}
 }

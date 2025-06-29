@@ -16,7 +16,7 @@ namespace MedicationControl.Service.Application.MedicamentPurchase.Handlers
 	/// <summary>
 	/// Выполнение запроса <see cref="UpdateMedicamentPurchaseCommand"/>
 	/// </summary>
-	internal class UpdateMedicamentPurchaseHandler : LoggerWrapper, IRequestHandler<UpdateMedicamentPurchaseCommand, Unit>
+	internal class UpdateMedicamentPurchaseHandler : LoggerWrapper, IRequestHandler<UpdateMedicamentPurchaseCommand>
 	{
 		private readonly IMedicamentPurchaseRepository _repository;
 		private readonly IMapper _mapper;
@@ -43,13 +43,13 @@ namespace MedicationControl.Service.Application.MedicamentPurchase.Handlers
 		}
 
 		/// <inheritdoc/>
-		public async Task<Unit> Handle(UpdateMedicamentPurchaseCommand request, CancellationToken cancellationToken)
+		public async Task Handle(UpdateMedicamentPurchaseCommand request, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var model = await this._mediator.Send(
-					new GetMedicamentPurchaseQuery(request.UserId, request.Request.MedicationPurchaseId));
+					new GetMedicamentPurchaseQuery(request.UserId, request.Request.MedicamentPurchaseId));
 
 				// недопустимо изменять связь пользователя с лекарством
 				if (request.Request.PersonMedicamentId != model.PersonMedicamentId)
@@ -59,8 +59,6 @@ namespace MedicationControl.Service.Application.MedicamentPurchase.Handlers
 
 				var updateModel = this._mapper.Map<DomainExt.MedicamentPurchase>(request);
 				await this._repository.UpdateAsync(model, cancellationToken);
-
-				return default;
 			}
 		}
 	}

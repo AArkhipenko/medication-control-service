@@ -43,6 +43,7 @@ namespace MedicationControl.Service.Application.MedicamentPurchase.Handlers
 		/// <inheritdoc/>
 		public async Task<int> Handle(CreateMedicamentPurchaseCommand request, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				await this._mediator.Send(

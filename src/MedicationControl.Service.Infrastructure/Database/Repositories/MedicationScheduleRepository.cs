@@ -38,6 +38,7 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		/// <inheritdoc/>
 		public async Task<IEnumerable<DomainExt.MedicationSchedule>> GetListByPersonMedicamentAsync(int personMedicamentId, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var list = await this._context.MedicationSchedules
@@ -51,6 +52,7 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		/// <inheritdoc/>
 		public async Task<int> CreateAsync(DomainExt.MedicationSchedule model, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var member = this._mapper.Map<TableExt.MedicationSchedule>(model);
@@ -65,6 +67,7 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		/// <inheritdoc/>
 		public async Task<DomainExt.MedicationSchedule> GetAsync(int medicationScheduleId, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var member = await base.GetEntityAsync(medicationScheduleId, cancellationToken);
@@ -77,6 +80,7 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		/// <inheritdoc/>
 		public async Task UpdateAsync(DomainExt.MedicationSchedule model, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var member = this._mapper.Map<TableExt.MedicationSchedule>(model);
@@ -89,6 +93,7 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		/// <inheritdoc/>
 		public async Task DeleteAsync(int medicationScheduleId, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var member = await base.GetEntityAsync(medicationScheduleId, cancellationToken);

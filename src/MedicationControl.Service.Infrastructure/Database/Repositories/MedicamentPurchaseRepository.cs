@@ -38,6 +38,7 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		/// <inheritdoc/>
 		public async Task<int> CreateAsync(DomainExt.MedicamentPurchase model, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var member = this._mapper.Map<TableExt.MedicamentPurchase>(model);
@@ -71,6 +72,19 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 				var member = this._mapper.Map<TableExt.MedicamentPurchase>(model);
 
 				this._context.MedicamentPurchases.Update(member);
+				await this._context.SaveChangesAsync(cancellationToken);
+			}
+		}
+
+		/// <inheritdoc/>
+		public async Task DeleteAsync(int medicamentPurchaseId, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			using (_ = base.BeginLoggingScope())
+			{
+				var member = await base.GetEntityAsync(medicamentPurchaseId, cancellationToken);
+
+				this._context.MedicamentPurchases.Remove(member);
 				await this._context.SaveChangesAsync(cancellationToken);
 			}
 		}

@@ -38,6 +38,7 @@ namespace MedicationControl.Service.Application.PersonMedicament.Handlers
 		/// <inheritdoc/>
 		public async Task Handle(DeletePersonMedicamentCommand request, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var member = await this._mediator.Send(new GetPersonMedicamentQuery(request.UserId, request.PersonMedicamentId));

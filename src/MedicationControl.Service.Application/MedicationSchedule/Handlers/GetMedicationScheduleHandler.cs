@@ -42,6 +42,7 @@ namespace MedicationControl.Service.Application.MedicationSchedule.Handlers
 		/// <inheritdoc/>
 		public async Task<MedicationScheduleDTO> Handle(GetMedicationScheduleQuery request, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var model = await this._repository.GetAsync(

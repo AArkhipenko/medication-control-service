@@ -36,5 +36,15 @@ namespace MedicationControl.Service.Domain.Repositories
 		Task UpdateAsync(
 			MedicamentPurchase model,
 			CancellationToken cancellationToken);
+
+		/// <summary>
+		/// Удаление записи
+		/// </summary>
+		/// <param name="medicamentPerchaseId">ИД закупки лекарств</param>
+		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
+		/// <returns>Ничего</returns>
+		Task DeleteAsync(
+			int medicamentPerchaseId,
+			CancellationToken cancellationToken);
 	}
 }

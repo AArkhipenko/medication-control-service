@@ -52,6 +52,7 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		/// <exception cref="NotFoundException">Сущность не найдена по ключу</exception>
 		public async Task<TEntity> GetEntityAsync(object?[]? keyValues, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			var member = await this._context.Set<TEntity>().FindAsync(keyValues, cancellationToken);
 			if(member is null)
 			{

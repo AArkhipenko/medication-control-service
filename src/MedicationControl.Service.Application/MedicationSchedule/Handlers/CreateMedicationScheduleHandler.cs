@@ -42,6 +42,7 @@ namespace MedicationControl.Service.Application.MedicationSchedule.Handlers
 		/// <inheritdoc/>
 		public async Task<int> Handle(CreateMedicationScheduleCommand request, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var list = await this._mediator.Send(

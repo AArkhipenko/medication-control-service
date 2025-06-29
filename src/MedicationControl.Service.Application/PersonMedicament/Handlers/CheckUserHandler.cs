@@ -30,6 +30,7 @@ namespace MedicationControl.Service.Application.PersonMedicament.Handlers
 		/// <inheritdoc/>
 		public async Task Handle(CheckUserCommand request, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var member = await this._repository.GetAsync(request.PersonMedicamentId, cancellationToken);

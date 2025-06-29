@@ -33,6 +33,7 @@ namespace MedicationControl.Service.Application.PersonMedicament.Handlers
 		/// <inheritdoc/>
 		public async Task<PersonMedicamentDTO> Handle(GetPersonMedicamentQuery request, CancellationToken cancellationToken)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var member = await this._repository.GetAsync(request.PersonMedicamentId, cancellationToken);
