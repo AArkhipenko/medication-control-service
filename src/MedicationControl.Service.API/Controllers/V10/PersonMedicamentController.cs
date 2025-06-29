@@ -110,6 +110,9 @@ namespace MedicationControl.Service.API.Controllers.V10
 		/// </summary>
 		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
 		/// <returns>Полный список лекарств, назначенных пользователю</returns>
+		/// <remarks>
+		/// person-medicaments/v10/list#GET
+		/// </remarks>
 		[HttpGet("list")]
 		public async Task<ActionResult<IEnumerable<PersonMedicamentDTO>>> GetListAsync(CancellationToken cancellationToken)
 		{

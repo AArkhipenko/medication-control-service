@@ -32,6 +32,11 @@ namespace MedicationControl.Service.API
 			var builder = WebApplication.CreateBuilder(args);
 #if DEBUG
 			builder.Configuration.AddYamlFile("DebugConfig.yml", false);
+#else
+			var configsPath = Environment.GetEnvironmentVariable("CONFIGS_PATH")
+				?? throw new ApplicationException("Не задана переменная окружения 'CONFIGS_PATH'.");
+			var configsFullPath = Path.Combine(configsPath, "medication-control-service.yml");
+			builder.Configuration.AddYamlFile(configsFullPath, false);
 #endif
 
 			builder.Services.AddControllers();
