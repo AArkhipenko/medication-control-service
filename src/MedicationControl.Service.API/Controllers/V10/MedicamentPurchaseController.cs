@@ -5,11 +5,6 @@ using MedicationControl.Service.Application.MedicamentPurchase.Commands;
 using MedicationControl.Service.Application.MedicamentPurchase.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Principal;
-using System.Text;
 
 namespace MedicationControl.Service.API.Controllers.V10
 {
@@ -77,6 +72,27 @@ namespace MedicationControl.Service.API.Controllers.V10
 
 				var id = await this._mediator.Send(
 					new CreateMedicamentPurchaseCommand(user.Id, request),
+					cancellationToken);
+
+				return NoContent();
+			}
+		}
+
+		/// <summary>
+		/// Удаление закупки лекарства
+		/// </summary>
+		/// <param name="id">ИД закупки лекарства</param>
+		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
+		/// <returns>Ничего</returns>
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
+		{
+			using (_ = base.BeginLoggingScope())
+			{
+				var user = await this._userProvider.GetUserAsync(cancellationToken);
+
+				await this._mediator.Send(
+					new DeleteMedicamentPurchaseCommand(user.Id, id),
 					cancellationToken);
 
 				return NoContent();

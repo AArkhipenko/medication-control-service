@@ -74,5 +74,18 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 				await this._context.SaveChangesAsync(cancellationToken);
 			}
 		}
+
+		/// <inheritdoc/>
+		public async Task DeleteAsync(int medicamentPurchaseId, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			using (_ = base.BeginLoggingScope())
+			{
+				var member = await base.GetEntityAsync(medicamentPurchaseId, cancellationToken);
+
+				this._context.MedicamentPurchases.Remove(member);
+				await this._context.SaveChangesAsync(cancellationToken);
+			}
+		}
 	}
 }

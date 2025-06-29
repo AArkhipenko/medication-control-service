@@ -7,7 +7,7 @@ namespace MedicationControl.Service.Application.MedicamentPurchase.Commands
 	/// <summary>
 	/// Запрос на изменение закупки лекарств
 	/// </summary>
-    public class UpdateMedicamentPurchaseCommand : UserBasedCommand, IRequest<Unit>
+    public class UpdateMedicamentPurchaseCommand : UserBasedCommand, IRequest
     {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="UpdateMedicamentPurchaseCommand"/> class.
