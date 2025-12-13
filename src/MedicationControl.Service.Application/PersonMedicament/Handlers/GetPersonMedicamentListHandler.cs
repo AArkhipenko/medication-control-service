@@ -39,7 +39,7 @@ namespace MedicationControl.Service.Application.PersonMedicament.Handlers
 			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
-				var list = await this._repository.GetListByUserAsync(request.UserId, cancellationToken);
+				var list = await this._repository.GetListByUserAsync(request.ExternalUserId, cancellationToken);
 
 				return list.Select(x => this._mapper.Map<PersonMedicamentDTO>(x));
 			}

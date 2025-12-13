@@ -12,10 +12,10 @@ namespace MedicationControl.Service.Application.MedicamentPurchase.Queries
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GetMedicamentPurchaseQuery"/> class.
 		/// </summary>
-		/// <param name="userId"><inheritdoc cref="UserBasedCommand.UserId" path="/summary"/></param>
+		/// <param name="externalUserId"><inheritdoc cref="UserBasedCommand.ExternalUserId" path="/summary"/></param>
 		/// <param name="medicamentPurchaseId"><inheritdoc cref="MedicamentPurchaseId" path="/summary"/></param>
-		public GetMedicamentPurchaseQuery(int userId, int medicamentPurchaseId)
-			: base(userId)
+		public GetMedicamentPurchaseQuery(string externalUserId, int medicamentPurchaseId)
+			: base(externalUserId)
 		{
 			this.MedicamentPurchaseId = medicamentPurchaseId;
 		}

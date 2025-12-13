@@ -12,9 +12,9 @@ namespace MedicationControl.Service.Application.PersonMedicament.Queries
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GetPersonMedicamentListQuery"/> class.
 		/// </summary>
-		/// <param name="userId"><inheritdoc cref="UserBasedCommand.UserId" path="/summary"/></param>
-		public GetPersonMedicamentListQuery(int userId)
-			: base(userId)
+		/// <param name="externalUserId"><inheritdoc cref="UserBasedCommand.ExternalUserId" path="/summary"/></param>
+		public GetPersonMedicamentListQuery(string externalUserId)
+			: base(externalUserId)
 		{
 		}
 	}

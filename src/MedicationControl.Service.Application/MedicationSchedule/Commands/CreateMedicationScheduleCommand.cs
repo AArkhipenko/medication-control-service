@@ -17,10 +17,10 @@ namespace MedicationControl.Service.Application.MedicationSchedule.Commands
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CreateMedicationScheduleCommand"/> class.
 		/// </summary>
-		/// <param name="userId"><inheritdoc cref="UserBasedCommand.UserId" path="/summary"/></param>
+		/// <param name="externalUserId"><inheritdoc cref="UserBasedCommand.ExternalUserId" path="/summary"/></param>
 		/// <param name="request"><inheritdoc cref="Request" path="/summary"/></param>
-		public CreateMedicationScheduleCommand(int userId, CreateMedicationScheduleDTO request)
-			: base(userId)
+		public CreateMedicationScheduleCommand(string externalUserId, CreateMedicationScheduleDTO request)
+			: base(externalUserId)
 		{
 			this.Request = request;
 		} 

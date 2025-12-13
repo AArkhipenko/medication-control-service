@@ -11,10 +11,10 @@ namespace MedicationControl.Service.Application.MedicamentPurchase.Commands
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DeleteMedicamentPurchaseCommand"/> class.
 		/// </summary>
-		/// <param name="userId"><inheritdoc cref="UserBasedCommand.UserId" path="/summary"/></param>
+		/// <param name="externalUserId"><inheritdoc cref="UserBasedCommand.ExternalUserId" path="/summary"/></param>
 		/// <param name="medicamentPurchaseId"><inheritdoc cref="MedicamentPurchaseId" path="/summary"/></param>
-		public DeleteMedicamentPurchaseCommand(int userId, int medicamentPurchaseId)
-			:base (userId)
+		public DeleteMedicamentPurchaseCommand(string externalUserId, int medicamentPurchaseId)
+			:base (externalUserId)
 		{
 			this.MedicamentPurchaseId = medicamentPurchaseId;
 		}

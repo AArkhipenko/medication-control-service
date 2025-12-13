@@ -50,7 +50,7 @@ namespace MedicationControl.Service.Application.MedicationSchedule.Handlers
 					cancellationToken);
 
 				await this._mediator.Send(
-					new CheckUserCommand(request.UserId, model.PersonMedicamentId),
+					new CheckUserCommand(request.ExternalUserId, model.PersonMedicamentId),
 					cancellationToken);
 
 				return this._mapper.Map<MedicationScheduleDTO>(model);

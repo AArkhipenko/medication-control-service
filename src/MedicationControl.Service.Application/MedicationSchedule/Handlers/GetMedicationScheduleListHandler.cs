@@ -46,7 +46,7 @@ namespace MedicationControl.Service.Application.MedicationSchedule.Handlers
 			using (_ = base.BeginLoggingScope())
 			{
 				await this._mediator.Send(
-					new CheckUserCommand(request.UserId, request.PersonMedicamentId),
+					new CheckUserCommand(request.ExternalUserId, request.PersonMedicamentId),
 					cancellationToken);
 
 				var list = await this._repository.GetListByPersonMedicamentAsync(

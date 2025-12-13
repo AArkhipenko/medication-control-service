@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Runtime.CompilerServices;
+﻿using Microsoft.AspNetCore.Authorization;
 
 namespace MedicationControl.Service.API.Controllers
 {

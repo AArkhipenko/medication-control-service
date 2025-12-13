@@ -49,7 +49,7 @@ namespace MedicationControl.Service.Application.MedicamentPurchase.Handlers
 			using (_ = base.BeginLoggingScope())
 			{
 				var model = await this._mediator.Send(
-					new GetMedicamentPurchaseQuery(request.UserId, request.Request.MedicamentPurchaseId));
+					new GetMedicamentPurchaseQuery(request.ExternalUserId, request.Request.MedicamentPurchaseId));
 
 				// недопустимо изменять связь пользователя с лекарством
 				if (request.Request.PersonMedicamentId != model.PersonMedicamentId)

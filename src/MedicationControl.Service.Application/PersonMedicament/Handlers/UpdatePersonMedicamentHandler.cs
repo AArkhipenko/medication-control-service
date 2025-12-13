@@ -48,7 +48,7 @@ namespace MedicationControl.Service.Application.PersonMedicament.Handlers
 			{
 				var model = this._mapper.Map<DomainExt.PersonMedicament>(request);
 
-				var member = await this._mediator.Send(new GetPersonMedicamentQuery(request.UserId, model.Id));
+				var member = await this._mediator.Send(new GetPersonMedicamentQuery(request.ExternalUserId, model.Id));
 				if(member.MedicamentTypeId != model.MedicamentTypeId)
 				{
 					throw new UnauthorizedAccessException("Изменение лекарственного средства недопустимо");

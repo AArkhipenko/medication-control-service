@@ -36,10 +36,28 @@ namespace MedicationControl.Service.Infrastructure.Database
 		/// Закупка лекарств
 		/// </summary>
 		public DbSet<MedicamentPurchase> MedicamentPurchases { get; set; }
+		
+		/// <summary>
+		/// Словарь активных веществ
+		/// </summary>
+		public DbSet<ActiveSubstanceType> ActiveSubstanceTypes { get; set; }
+
+		/// <summary>
+		/// Словарь лекарственных средств
+		/// </summary>
+		public DbSet<MedicamentType> MedicamentTypes { get; set; }
+
+		/// <summary>
+		/// Словарь пользовательского представления времени суток
+		/// </summary>
+		public DbSet<DayTimeType> DayTimeTypes { get; set; }
 
 		/// <inheritdoc/>
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			ActiveSubstanceType.Configure(modelBuilder);
+			MedicamentType.Configure(modelBuilder);
+			DayTimeType.Configure(modelBuilder);
 			PersonMedicament.Configure(modelBuilder);
 			MedicationSchedule.Configure(modelBuilder);
 			MedicamentPurchase.Configure(modelBuilder);

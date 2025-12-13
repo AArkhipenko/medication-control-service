@@ -37,7 +37,7 @@ namespace MedicationControl.Service.Application.PersonMedicament.Handlers
 			using (_ = base.BeginLoggingScope())
 			{
 				var member = await this._repository.GetAsync(request.PersonMedicamentId, cancellationToken);
-				if (member.UserId != request.UserId)
+				if (member.ExternalUserId != request.ExternalUserId)
 				{
 					throw new UnauthorizedAccessException("Попытка получения доступа к данным другого пользователя");
 				}

@@ -11,20 +11,20 @@ namespace MedicationControl.Service.Application.PersonMedicament.Commands
 		/// <summary>
 		/// Initializes a new instance of the <see cref="DeletePersonMedicamentCommand"/> class.
 		/// </summary>
-		/// <param name="userId"><inheritdoc cref="UserId" path="/summary"/></param>
+		/// <param name="externalUserId"><inheritdoc cref="ExternalUserId" path="/summary"/></param>
 		/// <param name="personMedicamentId"><inheritdoc cref="PersonMedicamentId" path="/summary"/></param>
 		public DeletePersonMedicamentCommand(
-			int userId,
+			string externalUserId,
 			int personMedicamentId)
 		{
-			this.UserId = userId;
+			this.ExternalUserId = externalUserId;
 			this.PersonMedicamentId = personMedicamentId;
 		}
 
 		/// <summary>
-		/// ИД пользователя
+		/// ИД пользователя во внешней системе
 		/// </summary>
-		public int UserId { get; }
+		public string ExternalUserId { get; }
 
 		/// <summary>
 		/// ИД связи пользователя с лекарственным средством

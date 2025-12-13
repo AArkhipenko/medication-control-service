@@ -20,13 +20,13 @@ namespace MedicationControl.Service.Application.Helper
 			// Лекарства назначенные пользователю
 			CreateMap<PersonMedicamentExt.UpdatePersonMedicamentCommand, DomainExt.PersonMedicament>()
 				.ForMember(domain => domain.Id, dto => dto.MapFrom(x => x.Request.PersonMedicamentId))
-				.ForMember(domain => domain.UserId, dto => dto.MapFrom(x => x.UserId))
+				.ForMember(domain => domain.ExternalUserId, dto => dto.MapFrom(x => x.ExternalUserId))
 				.ForMember(domain => domain.MedicamentTypeId, dto => dto.MapFrom(x => x.Request.MedicamentTypeId))
 				.ForMember(domain => domain.StartDate, dto => dto.MapFrom(x => x.Request.StartDate))
 				.ForMember(domain => domain.EndDate, dto => dto.MapFrom(x => x.Request.EndDate));
 
 			CreateMap<PersonMedicamentExt.CreatePersonMedicamentCommand, DomainExt.PersonMedicament>()
-				.ForMember(domain => domain.UserId, dto => dto.MapFrom(x => x.UserId))
+				.ForMember(domain => domain.ExternalUserId, dto => dto.MapFrom(x => x.ExternalUserId))
 				.ForMember(domain => domain.MedicamentTypeId, dto => dto.MapFrom(x => x.Request.MedicamentTypeId))
 				.ForMember(domain => domain.StartDate, dto => dto.MapFrom(x => x.Request.StartDate))
 				.ForMember(domain => domain.EndDate, dto => dto.MapFrom(x => x.Request.EndDate));

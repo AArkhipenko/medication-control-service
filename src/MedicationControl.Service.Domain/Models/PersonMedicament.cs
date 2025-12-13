@@ -11,9 +11,9 @@
 		public int Id { get; set; }
 
 		/// <summary>
-		/// ИД пользователя
+		/// ИД пользователя во внешней системе
 		/// </summary>
-		public int UserId { get; set; }
+		public string ExternalUserId { get; set; }
 
 		/// <summary>
 		/// ИД лекарственного средства

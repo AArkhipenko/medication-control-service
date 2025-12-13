@@ -1,12 +1,7 @@
 ﻿using AArkhipenko.Core.Exceptions;
 using AArkhipenko.Core.Logging;
-using AutoMapper;
-using MedicationControl.Service.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-
-using DomainExt = MedicationControl.Service.Domain.Models;
-using TableExt = MedicationControl.Service.Infrastructure.Database.Tables;
 
 namespace MedicationControl.Service.Infrastructure.Database.Repositories
 {
@@ -14,7 +9,7 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 	/// Ощий функционал всех репозиториев
 	/// </summary>
 	/// <typeparam name="TEntity">Тип данных в БД</typeparam>
-	internal class GeneralRepository<TEntity> : LoggerWrapper
+	internal abstract class GeneralRepository<TEntity> : LoggerWrapper
 		where TEntity: class
 	{
 		private readonly ControlContext _context;
@@ -25,7 +20,7 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		/// <param name="context"><see cref="ControlContext"/></param>
 		/// <param name="logger"><see cref="ILogger"/></param>
 		/// <exception cref="ArgumentNullException">Не задан один из входных параметров</exception>
-		public GeneralRepository(
+		protected GeneralRepository(
 			ControlContext context,
 			ILogger<GeneralRepository<TEntity>> logger)
 			: base(logger)
@@ -40,7 +35,7 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
 		/// <returns>Сущность из БД</returns>
 		/// <exception cref="NotFoundException">Сущность не найдена по ключу</exception>
-		public Task<TEntity> GetEntityAsync(int id, CancellationToken cancellationToken)
+		protected Task<TEntity> GetEntityAsync(int id, CancellationToken cancellationToken)
 			=> this.GetEntityAsync(new object[] { id }, cancellationToken);
 
 		/// <summary>
@@ -50,7 +45,7 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
 		/// <returns>Сущность из БД</returns>
 		/// <exception cref="NotFoundException">Сущность не найдена по ключу</exception>
-		public async Task<TEntity> GetEntityAsync(object?[]? keyValues, CancellationToken cancellationToken)
+		private async Task<TEntity> GetEntityAsync(object?[]? keyValues, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 			var member = await this._context.Set<TEntity>().FindAsync(keyValues, cancellationToken);

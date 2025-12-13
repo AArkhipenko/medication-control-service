@@ -46,7 +46,7 @@ namespace MedicationControl.Service.Application.MedicationSchedule.Handlers
 			using (_ = base.BeginLoggingScope())
 			{
 				var member = await this._mediator.Send(
-					new GetMedicationScheduleQuery(request.UserId, request.MedicationScheduleId),
+					new GetMedicationScheduleQuery(request.ExternalUserId, request.MedicationScheduleId),
 					cancellationToken);
 
 				await this._repository.DeleteAsync(request.MedicationScheduleId, cancellationToken);

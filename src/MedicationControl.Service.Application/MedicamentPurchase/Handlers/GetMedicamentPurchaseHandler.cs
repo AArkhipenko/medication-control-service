@@ -50,7 +50,7 @@ namespace MedicationControl.Service.Application.MedicamentPurchase.Handlers
 				var model = await this._repository.GetAsync(request.MedicamentPurchaseId, cancellationToken);
 
 				await this._mediator.Send(
-					new CheckUserCommand(request.UserId, model.PersonMedicamentId),
+					new CheckUserCommand(request.ExternalUserId, model.PersonMedicamentId),
 					cancellationToken);
 
 				return model;

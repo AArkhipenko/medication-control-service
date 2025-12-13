@@ -1,8 +1,5 @@
-﻿using AArkhipenko.Core.Exceptions;
-using AArkhipenko.Core.Logging;
-using AutoMapper;
+﻿using AutoMapper;
 using MedicationControl.Service.Domain.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 using DomainExt = MedicationControl.Service.Domain.Models;

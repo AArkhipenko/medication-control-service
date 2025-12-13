@@ -14,20 +14,20 @@ namespace MedicationControl.Service.Application.PersonMedicament.Queries
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GetPersonMedicamentQuery"/> class.
 		/// </summary>
-		/// <param name="userId"><inheritdoc cref="UserId" path="/summary"/></param>
+		/// <param name="externalUserId"><inheritdoc cref="ExternalUserId" path="/summary"/></param>
 		/// <param name="personMedicamentId"><inheritdoc cref="PersonMedicamentId" path="/summary"/></param>
 		public GetPersonMedicamentQuery(
-			int userId,
+			string externalUserId,
 			int personMedicamentId)
 		{
-			this.UserId = userId;
+			this.ExternalUserId = externalUserId;
 			this.PersonMedicamentId = personMedicamentId;
 		}
 
 		/// <summary>
-		/// ИД пользователя
+		/// ИД пользователя во внешней системе
 		/// </summary>
-		public int UserId { get; }
+		public string ExternalUserId { get; }
 
 		/// <summary>
 		/// ИД связи пользователя с лекарственным средством
