@@ -6,6 +6,8 @@ using AArkhipenko.Swagger.Models;
 using MedicationControl.Service.Application;
 using MedicationControl.Service.Infrastructure;
 using Microsoft.OpenApi.Models;
+using Steeltoe.Extensions.Configuration.ConfigServer;
+using Steeltoe.Extensions.Configuration.Placeholder;
 
 namespace MedicationControl.Service.API
 {
@@ -29,14 +31,15 @@ namespace MedicationControl.Service.API
 		/// <param name="args">список аргументов при запуске приложения</param>
 		public static void Main(string[] args)
 		{
-			var builder = WebApplication.CreateBuilder(args);
+			var builder = WebApplication.CreateBuilder(args)
+				// Spring cloud config
+				.AddConfigServer()
+				.AddPlaceholderResolver();
+			
 #if DEBUG
-			builder.Configuration.AddYamlFile("DebugConfig.yml", false);
-#else
-			var configsPath = Environment.GetEnvironmentVariable("CONFIGS_PATH")
-				?? throw new ApplicationException("Не задана переменная окружения 'CONFIGS_PATH'.");
-			var configsFullPath = Path.Combine(configsPath, "medication-control-service.yml");
-			builder.Configuration.AddYamlFile(configsFullPath, false);
+			builder.Configuration
+				.AddYamlFile("DebugConfig.yml", false)
+				.AddUserSecrets<Program>();
 #endif
 
 			builder.Services.AddControllers();
