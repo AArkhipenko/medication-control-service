@@ -1,0 +1,25 @@
+# Сборка (и публикация) проекта
+
+name: Build (and publish)
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Тип сборки'
+        required: true
+        default: 'build'
+        type: choice
+        options:
+        - build
+        - release
+
+jobs:
+  build-and-publish:
+    uses: AArkhipenko/pipelines/.github/workflows/dotnet.yml@main
+    with:
+      dotnet_version: 7.0.x
+      build_type: ${{ github.event.inputs.build_type }}
+      branch_name: ${{ github.ref_name }}
+      repository_name: ${{ github.repository }}
+    secrets: inherit
