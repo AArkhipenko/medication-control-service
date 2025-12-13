@@ -1,0 +1,90 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F5182F1E-2D53-40DA-9693-AD9C8D6FA4B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{CDEBC7DE-1E70-4959-BF4E-35BB170047D7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{14BF4ABE-574A-4463-B518-522E0CA78BC3}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedicationControl.Service.API", "src\MedicationControl.Service.API\MedicationControl.Service.API.csproj", "{35681A51-6134-4597-93D3-10BEB247B858}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicationControl.Service.API.Tests", "test\MedicationControl.Service.API.Tests\MedicationControl.Service.API.Tests.csproj", "{ACC9DBBE-1236-4F38-8F2A-8440BA40BB07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicationControl.Service.Application", "src\MedicationControl.Service.Application\MedicationControl.Service.Application.csproj", "{A6DAEEE7-0ED6-1CD6-001E-B81746038DD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicationControl.Service.Domain", "src\MedicationControl.Service.Domain\MedicationControl.Service.Domain.csproj", "{8A67EAA5-10C3-3ED7-7666-6613A79D87AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicationControl.Service.Infrastructure", "src\MedicationControl.Service.Infrastructure\MedicationControl.Service.Infrastructure.csproj", "{FC85852C-4BD8-F670-6511-130C5420F104}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicationControl.Service.Application.Tests", "test\MedicationControl.Service.Application.Tests\MedicationControl.Service.Application.Tests.csproj", "{C3024D94-3EBB-17A1-02CC-B9D4E616753A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicationControl.Service.Domain.Tests", "test\MedicationControl.Service.Domain.Tests\MedicationControl.Service.Domain.Tests.csproj", "{D7C59BE5-106A-DB7F-3CCC-E401642A8EA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicationControl.Service.Infrastructure.Tests", "test\MedicationControl.Service.Infrastructure.Tests\MedicationControl.Service.Infrastructure.Tests.csproj", "{20CCD839-9BE3-8B6F-1442-200D56A20D4B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35681A51-6134-4597-93D3-10BEB247B858}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35681A51-6134-4597-93D3-10BEB247B858}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35681A51-6134-4597-93D3-10BEB247B858}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35681A51-6134-4597-93D3-10BEB247B858}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACC9DBBE-1236-4F38-8F2A-8440BA40BB07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACC9DBBE-1236-4F38-8F2A-8440BA40BB07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACC9DBBE-1236-4F38-8F2A-8440BA40BB07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACC9DBBE-1236-4F38-8F2A-8440BA40BB07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6DAEEE7-0ED6-1CD6-001E-B81746038DD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6DAEEE7-0ED6-1CD6-001E-B81746038DD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6DAEEE7-0ED6-1CD6-001E-B81746038DD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6DAEEE7-0ED6-1CD6-001E-B81746038DD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A67EAA5-10C3-3ED7-7666-6613A79D87AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A67EAA5-10C3-3ED7-7666-6613A79D87AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A67EAA5-10C3-3ED7-7666-6613A79D87AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A67EAA5-10C3-3ED7-7666-6613A79D87AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC85852C-4BD8-F670-6511-130C5420F104}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC85852C-4BD8-F670-6511-130C5420F104}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC85852C-4BD8-F670-6511-130C5420F104}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC85852C-4BD8-F670-6511-130C5420F104}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3024D94-3EBB-17A1-02CC-B9D4E616753A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3024D94-3EBB-17A1-02CC-B9D4E616753A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3024D94-3EBB-17A1-02CC-B9D4E616753A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3024D94-3EBB-17A1-02CC-B9D4E616753A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7C59BE5-106A-DB7F-3CCC-E401642A8EA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7C59BE5-106A-DB7F-3CCC-E401642A8EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7C59BE5-106A-DB7F-3CCC-E401642A8EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7C59BE5-106A-DB7F-3CCC-E401642A8EA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20CCD839-9BE3-8B6F-1442-200D56A20D4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20CCD839-9BE3-8B6F-1442-200D56A20D4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20CCD839-9BE3-8B6F-1442-200D56A20D4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20CCD839-9BE3-8B6F-1442-200D56A20D4B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{35681A51-6134-4597-93D3-10BEB247B858} = {F5182F1E-2D53-40DA-9693-AD9C8D6FA4B5}
+		{ACC9DBBE-1236-4F38-8F2A-8440BA40BB07} = {CDEBC7DE-1E70-4959-BF4E-35BB170047D7}
+		{A6DAEEE7-0ED6-1CD6-001E-B81746038DD0} = {F5182F1E-2D53-40DA-9693-AD9C8D6FA4B5}
+		{8A67EAA5-10C3-3ED7-7666-6613A79D87AC} = {F5182F1E-2D53-40DA-9693-AD9C8D6FA4B5}
+		{FC85852C-4BD8-F670-6511-130C5420F104} = {F5182F1E-2D53-40DA-9693-AD9C8D6FA4B5}
+		{C3024D94-3EBB-17A1-02CC-B9D4E616753A} = {CDEBC7DE-1E70-4959-BF4E-35BB170047D7}
+		{D7C59BE5-106A-DB7F-3CCC-E401642A8EA7} = {CDEBC7DE-1E70-4959-BF4E-35BB170047D7}
+		{20CCD839-9BE3-8B6F-1442-200D56A20D4B} = {CDEBC7DE-1E70-4959-BF4E-35BB170047D7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {799E95C8-1233-4FC4-B238-9ECEAAADF916}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,10 @@
+﻿KeycloakSettings:
+    Authority: http://server.arkhipenko.lan:50000/realms/aid-kit-realm
+    MetadataAddress: http://server.arkhipenko.lan:50000/realms/aid-kit-realm/.well-known/openid-configuration
+    IsValidateIssuer: false
+
+# ConnectionStrings:ControlDb в user secrets
+
+UserHelper:
+    UserService:
+        Url: http://server.arkhipenko.lan:60101
