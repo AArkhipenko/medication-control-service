@@ -8,15 +8,15 @@
 		/// <summary>
 		/// Initializes a new instance of the <see cref="UserBasedCommand"/> class.
 		/// </summary>
-		/// <param name="userId"><inheritdoc cref="UserId" path="/summary"/></param>
-		public UserBasedCommand(int userId)
+		/// <param name="externalUserId"><inheritdoc cref="ExternalUserId" path="/summary"/></param>
+		protected UserBasedCommand(string externalUserId)
 		{
-			this.UserId = userId;
+			this.ExternalUserId = externalUserId;
 		}
 
 		 /// <summary>
-		/// ИД пользователя
+		/// ИД пользователя во внешней системе
 		/// </summary>
-		public int UserId { get; }
+		public string ExternalUserId { get; }
     }
 }

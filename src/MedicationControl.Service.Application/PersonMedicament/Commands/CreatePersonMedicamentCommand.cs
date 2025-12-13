@@ -11,20 +11,20 @@ namespace MedicationControl.Service.Application.PersonMedicament.Commands
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CreatePersonMedicamentCommand"/> class.
 		/// </summary>
-		/// <param name="userId"><inheritdoc cref="UserId" path="/summary"/></param>
+		/// <param name="externalUserId"><inheritdoc cref="ExternalUserId" path="/summary"/></param>
 		/// <param name="request"><inheritdoc cref="Request" path="/summary"/></param>
 		public CreatePersonMedicamentCommand(
-			int userId,
+			string externalUserId,
 			CreatePersonMedicamentDTO request)
 		{
-			this.UserId = userId;
+			this.ExternalUserId = externalUserId;
 			this.Request = request;
 		}
 
 		/// <summary>
-		/// ИД пользователя
+		/// ИД пользователя во внешней системе
 		/// </summary>
-		public int UserId { get; }
+		public string ExternalUserId { get; }
 
 		/// <inheritdoc cref="CreatePersonMedicamentDTO" path="/summary"/>
 		public CreatePersonMedicamentDTO Request { get; }

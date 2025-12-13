@@ -47,7 +47,7 @@ namespace MedicationControl.Service.Application.MedicamentPurchase.Handlers
 			using (_ = base.BeginLoggingScope())
 			{
 				await this._mediator.Send(
-					new CheckUserCommand(request.UserId, request.Request.PersonMedicamentId),
+					new CheckUserCommand(request.ExternalUserId, request.Request.PersonMedicamentId),
 					cancellationToken);
 
 				var model = this._mapper.Map<DomainExt.MedicamentPurchase>(request);

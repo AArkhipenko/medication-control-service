@@ -11,10 +11,10 @@ namespace MedicationControl.Service.Application.PersonMedicament.Commands
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CheckUserCommand"/> class.
 		/// </summary>
-		/// <param name="userId"><inheritdoc cref="UserBasedCommand.UserId" path="/summary"/></param>
+		/// <param name="externalUserId"><inheritdoc cref="UserBasedCommand.ExternalUserId" path="/summary"/></param>
 		/// <param name="personMedicamentId"><inheritdoc cref="PersonMedicamentId" path="/summary"/></param>
-		public CheckUserCommand(int userId, int personMedicamentId)
-			: base(userId)
+		public CheckUserCommand(string externalUserId, int personMedicamentId)
+			: base(externalUserId)
 		{
 			this.PersonMedicamentId = personMedicamentId;
 		}

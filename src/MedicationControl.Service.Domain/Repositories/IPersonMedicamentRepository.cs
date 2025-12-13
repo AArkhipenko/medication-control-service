@@ -42,9 +42,9 @@ namespace MedicationControl.Service.Domain.Repositories
 		/// <summary>
 		/// Получение списка записей, связанных с пользователем
 		/// </summary>
-		/// <param name="userId">ИД пользователя</param>
+		/// <param name="externalUserId">ИД пользователя</param>
 		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
 		/// <returns>Список <see cref="PersonMedicament"/></returns>
-		Task<IEnumerable<PersonMedicament>> GetListByUserAsync(int userId, CancellationToken cancellationToken);
+		Task<IEnumerable<PersonMedicament>> GetListByUserAsync(string externalUserId, CancellationToken cancellationToken);
 	}
 }

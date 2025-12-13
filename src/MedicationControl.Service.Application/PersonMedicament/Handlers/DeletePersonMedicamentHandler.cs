@@ -41,7 +41,7 @@ namespace MedicationControl.Service.Application.PersonMedicament.Handlers
 			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
-				var member = await this._mediator.Send(new GetPersonMedicamentQuery(request.UserId, request.PersonMedicamentId));
+				var member = await this._mediator.Send(new GetPersonMedicamentQuery(request.ExternalUserId, request.PersonMedicamentId));
 
 				await this._repository.DeleteAsync(request.PersonMedicamentId, cancellationToken);
 			}

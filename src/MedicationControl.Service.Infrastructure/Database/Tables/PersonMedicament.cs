@@ -14,9 +14,9 @@ namespace MedicationControl.Service.Infrastructure.Database.Tables
 		public int Id { get; set; }
 
 		/// <summary>
-		/// ИД пользователя (public.users)
+		/// ИД пользователя во внешней системе
 		/// </summary>
-		public int UserId { get; set; }
+		public string ExternalUserId { get; set; }
 
 		/// <summary>
 		/// ИД лекарственного средства (public.medicament_types)
@@ -55,8 +55,8 @@ namespace MedicationControl.Service.Infrastructure.Database.Tables
 				.ValueGeneratedOnAdd();
 
 			builder
-				.Property<int>(p => p.UserId)
-				.HasColumnName("user_id")
+				.Property<string>(p => p.ExternalUserId)
+				.HasColumnName("user_external_id")
 				.IsRequired();
 
 			builder

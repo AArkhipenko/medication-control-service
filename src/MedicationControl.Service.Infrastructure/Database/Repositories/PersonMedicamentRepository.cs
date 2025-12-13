@@ -88,14 +88,14 @@ namespace MedicationControl.Service.Infrastructure.Database.Repositories
 		}
 
 		/// <inheritdoc/>
-		public async Task<IEnumerable<DomainExt.PersonMedicament>> GetListByUserAsync(int userId, CancellationToken cancellationToken)
+		public async Task<IEnumerable<DomainExt.PersonMedicament>> GetListByUserAsync(string externalUserId, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 			using (_ = base.BeginLoggingScope())
 			{
 				var list = await this._context.PersonMedicaments
 					.AsNoTracking()
-					.Where(x => x.UserId == userId)
+					.Where(x => x.ExternalUserId == externalUserId)
 					.ToListAsync();
 
 				return list.Select(x => this._mapper.Map<DomainExt.PersonMedicament>(x));

@@ -12,10 +12,10 @@ namespace MedicationControl.Service.Application.MedicationSchedule.Queries
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GetMedicationScheduleQuery"/> class.
 		/// </summary>
-		/// <param name="userId"><inheritdoc cref="UserBasedCommand.UserId" path="/summary"/></param>
+		/// <param name="externalUserId"><inheritdoc cref="UserBasedCommand.ExternalUserId" path="/summary"/></param>
 		/// <param name="medicationScheduleId"><inheritdoc cref="MedicationScheduleId" path="/summary"/></param>
-		public GetMedicationScheduleQuery(int userId, int medicationScheduleId)
-			: base(userId)
+		public GetMedicationScheduleQuery(string externalUserId, int medicationScheduleId)
+			: base(externalUserId)
 		{
 			this.MedicationScheduleId = medicationScheduleId;
 		}

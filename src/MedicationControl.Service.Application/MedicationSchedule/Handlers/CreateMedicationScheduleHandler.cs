@@ -46,7 +46,7 @@ namespace MedicationControl.Service.Application.MedicationSchedule.Handlers
 			using (_ = base.BeginLoggingScope())
 			{
 				var list = await this._mediator.Send(
-					new GetMedicationScheduleListQuery(request.UserId, request.Request.PersonMedicamentId),
+					new GetMedicationScheduleListQuery(request.ExternalUserId, request.Request.PersonMedicamentId),
 					cancellationToken);
 
 				var model = this._mapper.Map<DomainExt.MedicationSchedule>(request);
