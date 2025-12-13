@@ -1,4 +1,4 @@
-using AArkhipenko.UserHelper.Providers;
+using AArkhipenko.UserHelper.Helpers;
 using Asp.Versioning;
 using MediatR;
 using MedicationControl.Service.Application.PersonMedicament.Commands;
@@ -6,11 +6,6 @@ using MedicationControl.Service.Application.PersonMedicament.DTO;
 using MedicationControl.Service.Application.PersonMedicament.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Principal;
-using System.Text;
 
 namespace MedicationControl.Service.API.Controllers.V10
 {
@@ -23,22 +18,22 @@ namespace MedicationControl.Service.API.Controllers.V10
 	[Authorize("UserRole")]
 	public class PersonMedicamentController : ApiAuthBaseController
 	{
-		private readonly IUserProvider _userProvider;
+		private readonly IUserHelper _userHelper;
 		private readonly IMediator _mediator;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PersonMedicamentController"/> class.
 		/// </summary>
-		/// <param name="userProvider"><see cref="IUserProvider"/></param>
+		/// <param name="userHelper"><see cref="IUserHelper"/></param>
 		/// <param name="mediator"><see cref="IMediator"/></param>
 		/// <param name="logger"><see cref="ILogger"/></param>
 		/// <exception cref="ArgumentNullException">не задан входной параметр</exception>
 		public PersonMedicamentController(
-			IUserProvider userProvider,
+			IUserHelper userHelper,
 			IMediator mediator,
 			ILogger<PersonMedicamentController> logger)
 			: base(logger)
 		{
-			this._userProvider = userProvider ?? throw new ArgumentNullException(nameof(userProvider));
+			this._userHelper = userHelper ?? throw new ArgumentNullException(nameof(userHelper));
 			this._mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 		}
 
@@ -53,7 +48,7 @@ namespace MedicationControl.Service.API.Controllers.V10
 		{
 			using (_ = base.BeginLoggingScope())
 			{
-				var user = await this._userProvider.GetUserAsync(cancellationToken);
+				var user = await this._userHelper.GetUserAsync(cancellationToken);
 
 				var id = await this._mediator.Send(
 					new CreatePersonMedicamentCommand(user.Id, request),
@@ -74,7 +69,7 @@ namespace MedicationControl.Service.API.Controllers.V10
 		{
 			using (_ = base.BeginLoggingScope())
 			{
-				var user = await this._userProvider.GetUserAsync(cancellationToken);
+				var user = await this._userHelper.GetUserAsync(cancellationToken);
 
 				await this._mediator.Send(
 					new UpdatePersonMedicamentCommand(user.Id, request),
@@ -95,7 +90,7 @@ namespace MedicationControl.Service.API.Controllers.V10
 		{
 			using (_ = base.BeginLoggingScope())
 			{
-				var user = await this._userProvider.GetUserAsync(cancellationToken);
+				var user = await this._userHelper.GetUserAsync(cancellationToken);
 
 				await this._mediator.Send(
 					new DeletePersonMedicamentCommand(user.Id, id),
@@ -118,7 +113,7 @@ namespace MedicationControl.Service.API.Controllers.V10
 		{
 			using (_ = base.BeginLoggingScope())
 			{
-				var user = await this._userProvider.GetUserAsync(cancellationToken);
+				var user = await this._userHelper.GetUserAsync(cancellationToken);
 
 				var list = await this._mediator.Send(
 					new GetPersonMedicamentListQuery(user.Id),

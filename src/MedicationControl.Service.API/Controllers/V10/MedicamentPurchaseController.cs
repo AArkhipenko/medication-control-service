@@ -1,4 +1,4 @@
-using AArkhipenko.UserHelper.Providers;
+using AArkhipenko.UserHelper.Helpers;
 using Asp.Versioning;
 using MediatR;
 using MedicationControl.Service.Application.MedicamentPurchase.Commands;
@@ -17,22 +17,22 @@ namespace MedicationControl.Service.API.Controllers.V10
 	[Authorize("UserRole")]
 	public class MedicamentPurchaseController : ApiAuthBaseController
 	{
-		private readonly IUserProvider _userProvider;
+		private readonly IUserHelper _userHelper;
 		private readonly IMediator _mediator;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MedicamentPurchaseController"/> class.
 		/// </summary>
-		/// <param name="userProvider"><see cref="IUserProvider"/></param>
+		/// <param name="userHelper"><see cref="IUserHelper"/></param>
 		/// <param name="mediator"><see cref="IMediator"/></param>
 		/// <param name="logger"><see cref="ILogger"/></param>
 		/// <exception cref="ArgumentNullException">не задан входной параметр</exception>
 		public MedicamentPurchaseController(
-			IUserProvider userProvider,
+			IUserHelper userHelper,
 			IMediator mediator,
 			ILogger<MedicamentPurchaseController> logger)
 			: base(logger)
 		{
-			this._userProvider = userProvider ?? throw new ArgumentNullException(nameof(userProvider));
+			this._userHelper = userHelper ?? throw new ArgumentNullException(nameof(userHelper));
 			this._mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
 		}
 
@@ -47,7 +47,7 @@ namespace MedicationControl.Service.API.Controllers.V10
 		{
 			using (_ = base.BeginLoggingScope())
 			{
-				var user = await this._userProvider.GetUserAsync(cancellationToken);
+				var user = await this._userHelper.GetUserAsync(cancellationToken);
 
 				var id = await this._mediator.Send(
 					new CreateMedicamentPurchaseCommand(user.Id, request),
@@ -68,7 +68,7 @@ namespace MedicationControl.Service.API.Controllers.V10
 		{
 			using (_ = base.BeginLoggingScope())
 			{
-				var user = await this._userProvider.GetUserAsync(cancellationToken);
+				var user = await this._userHelper.GetUserAsync(cancellationToken);
 
 				var id = await this._mediator.Send(
 					new CreateMedicamentPurchaseCommand(user.Id, request),
@@ -89,7 +89,7 @@ namespace MedicationControl.Service.API.Controllers.V10
 		{
 			using (_ = base.BeginLoggingScope())
 			{
-				var user = await this._userProvider.GetUserAsync(cancellationToken);
+				var user = await this._userHelper.GetUserAsync(cancellationToken);
 
 				await this._mediator.Send(
 					new DeleteMedicamentPurchaseCommand(user.Id, id),

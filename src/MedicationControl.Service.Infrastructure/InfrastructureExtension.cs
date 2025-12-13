@@ -23,11 +23,11 @@ namespace MedicationControl.Service.Infrastructure
 		/// <returns><see cref="IServiceCollection"/></returns>
 		public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
 			=> services
-			.AddDbContext(configuration)
-			.AddRepositories()
-			.AddKeycloakAuth(configuration)
-			.AddNpgsqlUserProvider()
-			.AddAutoMapper();
+				.AddDbContext(configuration)
+				.AddRepositories()
+				.AddKeycloakAuth(configuration)
+				.AddUserHelper(configuration)
+				.AddAutoMapper();
 
 		/// <summary>
 		/// Добавление контекста БД
@@ -55,9 +55,9 @@ namespace MedicationControl.Service.Infrastructure
 		/// <returns><see cref="IServiceCollection"/></returns>
 		private static IServiceCollection AddRepositories(this IServiceCollection services)
 			=> services
-			.AddScoped<IPersonMedicamentRepository, PersonMedicamentRepository>()
-			.AddScoped<IMedicationScheduleRepository, MedicationScheduleRepository>()
-			.AddScoped<IMedicamentPurchaseRepository, MedicamentPurchaseRepository>();
+				.AddScoped<IPersonMedicamentRepository, PersonMedicamentRepository>()
+				.AddScoped<IMedicationScheduleRepository, MedicationScheduleRepository>()
+				.AddScoped<IMedicamentPurchaseRepository, MedicamentPurchaseRepository>();
 
 		/// <summary>
 		/// Добавление автомапперов
@@ -66,6 +66,6 @@ namespace MedicationControl.Service.Infrastructure
 		/// <returns><see cref="IServiceCollection"/></returns>
 		private static IServiceCollection AddAutoMapper(this IServiceCollection services)
 			=> services
-			.AddAutoMapper(typeof(DbDomainProfile));
+				.AddAutoMapper(typeof(DbDomainProfile));
 	}
 }
