@@ -55,6 +55,7 @@ namespace MedicationControl.Service.Infrastructure
 		/// <returns><see cref="IServiceCollection"/></returns>
 		private static IServiceCollection AddRepositories(this IServiceCollection services)
 			=> services
+				.AddScoped<IDictionaryRepository, DictionaryRepository>()
 				.AddScoped<IPersonMedicamentRepository, PersonMedicamentRepository>()
 				.AddScoped<IMedicationScheduleRepository, MedicationScheduleRepository>()
 				.AddScoped<IMedicamentPurchaseRepository, MedicamentPurchaseRepository>();

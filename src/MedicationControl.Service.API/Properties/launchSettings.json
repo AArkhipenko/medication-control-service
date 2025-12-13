@@ -17,7 +17,9 @@
       "applicationUrl": "http://localhost:5295",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "SERVICE_NAME": "MedicationControl.Service.API"
+        "SERVICE_NAME": "MedicationControl.Service.API",
+        "spring:application:name": "medication-control-service",
+        "spring:cloud:config:uri": "http://server.arkhipenko.lan:60004"
       }
     },
     "https.Dev": {
@@ -28,7 +30,9 @@
       "applicationUrl": "https://localhost:7208;http://localhost:5295",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "SERVICE_NAME": "MedicationControl.Service.API"
+        "SERVICE_NAME": "MedicationControl.Service.API",
+        "spring:application:name": "medication-control-service",
+        "spring:cloud:config:uri": "http://server.arkhipenko.lan:60004"
       }
     }
   }
