@@ -1,8 +1,8 @@
 ﻿using AArkhipenko.Core.Logging;
 using AutoMapper;
 using MediatR;
+using MedicationControl.Service.Application.Common.Commands;
 using MedicationControl.Service.Application.MedicamentPurchase.Queries;
-using MedicationControl.Service.Application.PersonMedicament.Commands;
 using MedicationControl.Service.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 
@@ -11,7 +11,7 @@ using DomainModel = MedicationControl.Service.Domain.Models.MedicamentPurchase;
 namespace MedicationControl.Service.Application.MedicamentPurchase.Handlers;
 
 /// <summary>
-/// Выполнение запроса <see cref="GetMedicamentPurchaseQuery"/>
+/// Выполнение запроса <see cref="GetMedicamentPurchaseQuery"/>.
 /// </summary>
 internal sealed class GetMedicamentPurchaseHandler : LoggerWrapper, IRequestHandler<GetMedicamentPurchaseQuery, DomainModel>
 {
@@ -21,11 +21,11 @@ internal sealed class GetMedicamentPurchaseHandler : LoggerWrapper, IRequestHand
 	/// <summary>
 	/// Initializes a new instance of the <see cref="GetMedicamentPurchaseHandler"/> class.
 	/// </summary>
-	/// <param name="repository"><see cref="IMedicamentPurchaseRepository"/></param>
-	/// <param name="mapper"><see cref="IMapper"/></param>
-	/// <param name="mediator"><see cref="IMediator"/></param>
-	/// <param name="logger"><see cref="ILogger"/></param>
-	/// <exception cref="ArgumentNullException">Не задан входной параметр</exception>
+	/// <param name="repository"><see cref="IMedicamentPurchaseRepository"/>.</param>
+	/// <param name="mapper"><see cref="IMapper"/>.</param>
+	/// <param name="mediator"><see cref="IMediator"/>.</param>
+	/// <param name="logger"><see cref="ILogger"/>.</param>
+	/// <exception cref="ArgumentNullException">Не задан один из входных параметров.</exception>
 	public GetMedicamentPurchaseHandler(
 		IMedicamentPurchaseRepository repository,
 		IMapper mapper,
@@ -45,8 +45,9 @@ internal sealed class GetMedicamentPurchaseHandler : LoggerWrapper, IRequestHand
 		{
 			var model = await this._repository.GetAsync(request.MedicamentPurchaseId, cancellationToken);
 
+			// Проверка прав доступа к данным
 			await this._mediator.Send(
-				new CheckUserCommand(request.ExternalUserId, model.PersonMedicamentId),
+				new CheckUserDataPermissionCommand(request.ExternalUserId, model.PersonMedicamentId),
 				cancellationToken);
 
 			return model;

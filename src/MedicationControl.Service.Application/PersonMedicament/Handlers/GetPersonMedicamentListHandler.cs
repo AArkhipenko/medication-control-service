@@ -6,43 +6,42 @@ using MedicationControl.Service.Application.PersonMedicament.Queries;
 using MedicationControl.Service.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 
-namespace MedicationControl.Service.Application.PersonMedicament.Handlers
+namespace MedicationControl.Service.Application.PersonMedicament.Handlers;
+
+/// <summary>
+/// Выполнение <see cref="GetPersonMedicamentListQuery"/>.
+/// </summary>
+internal sealed class GetPersonMedicamentListHandler : LoggerWrapper, IRequestHandler<GetPersonMedicamentListQuery, IEnumerable<PersonMedicamentDto>>
 {
+	private readonly IPersonMedicamentRepository _repository;
+	private readonly IMapper _mapper;
+
 	/// <summary>
-	/// Выполнение <see cref="GetPersonMedicamentListQuery"/>
+	/// Initializes a new instance of the <see cref="GetPersonMedicamentListHandler"/> class.
 	/// </summary>
-	internal class GetPersonMedicamentListHandler : LoggerWrapper, IRequestHandler<GetPersonMedicamentListQuery, IEnumerable<PersonMedicamentDTO>>
+	/// <param name="repository"><see cref="IPersonMedicamentRepository"/>.</param>
+	/// <param name="mapper"><see cref="IMapper"/>.</param>
+	/// <param name="logger"><see cref="ILogger"/>.</param>
+	/// <exception cref="ArgumentNullException">Не задан один из входных параметров.</exception>
+	public GetPersonMedicamentListHandler(
+		IPersonMedicamentRepository repository,
+		IMapper mapper,
+		ILogger<GetPersonMedicamentListHandler> logger)
+		: base(logger)
 	{
-		private readonly IPersonMedicamentRepository _repository;
-		private readonly IMapper _mapper;
+		this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
+		this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+	}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="GetPersonMedicamentListHandler"/> class.
-		/// </summary>
-		/// <param name="repository"><see cref="IPersonMedicamentRepository"/></param>
-		/// <param name="mapper"><see cref="IMapper"/></param>
-		/// <param name="logger"><see cref="ILogger"/></param>
-		/// <exception cref="ArgumentNullException">Не задан один из входных параметров</exception>
-		public GetPersonMedicamentListHandler(
-			IPersonMedicamentRepository repository,
-			IMapper mapper,
-			ILogger<GetPersonMedicamentListHandler> logger)
-			: base(logger)
+	/// <inheritdoc/>
+	public async Task<IEnumerable<PersonMedicamentDto>> Handle(GetPersonMedicamentListQuery request, CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		using (_ = base.BeginLoggingScope())
 		{
-			this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
-			this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-		}
+			var list = await this._repository.GetListByUserAsync(request.ExternalUserId, cancellationToken);
 
-		/// <inheritdoc/>
-		public async Task<IEnumerable<PersonMedicamentDTO>> Handle(GetPersonMedicamentListQuery request, CancellationToken cancellationToken)
-		{
-			cancellationToken.ThrowIfCancellationRequested();
-			using (_ = base.BeginLoggingScope())
-			{
-				var list = await this._repository.GetListByUserAsync(request.ExternalUserId, cancellationToken);
-
-				return list.Select(x => this._mapper.Map<PersonMedicamentDTO>(x));
-			}
+			return list.Select(x => this._mapper.Map<PersonMedicamentDto>(x));
 		}
 	}
 }

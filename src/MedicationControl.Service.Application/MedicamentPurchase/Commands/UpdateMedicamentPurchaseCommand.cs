@@ -1,13 +1,14 @@
 ﻿using MediatR;
-using MedicationControl.Service.Application.Common;
+using MedicationControl.Service.Application.Common.Commands;
+using MedicationControl.Service.Application.Mediatr.Abstractions;
 using MedicationControl.Service.Application.MedicamentPurchase.DTO;
 
 namespace MedicationControl.Service.Application.MedicamentPurchase.Commands;
 
 /// <summary>
-/// Запрос на изменение закупки лекарств
+/// Запрос на изменение закупки лекарств.
 /// </summary>
-public sealed class UpdateMedicamentPurchaseCommand : UserBasedCommand, IRequest
+public sealed class UpdateMedicamentPurchaseCommand : UserBasedCommand, IRequest, IUserDataPermissionCheck
 {
 	/// <summary>
 	/// Initializes a new instance of the <see cref="UpdateMedicamentPurchaseCommand"/> class.
@@ -21,7 +22,10 @@ public sealed class UpdateMedicamentPurchaseCommand : UserBasedCommand, IRequest
 	}
 
 	/// <summary>
-	/// Модель закупки лекарств
+	/// Модель закупки лекарств.
 	/// </summary>
 	public MedicamentPurchaseDto Request { get; }
+
+	/// <inheritdoc/>
+	public int PersonMedicamentId => Request.PersonMedicamentId;
 }

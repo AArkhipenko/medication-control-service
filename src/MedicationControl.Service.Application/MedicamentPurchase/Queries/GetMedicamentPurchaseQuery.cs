@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using MedicationControl.Service.Application.Common;
+using MedicationControl.Service.Application.Common.Commands;
 using DomainModel = MedicationControl.Service.Domain.Models.MedicamentPurchase;
 
 namespace MedicationControl.Service.Application.MedicamentPurchase.Queries;

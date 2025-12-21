@@ -22,10 +22,10 @@ namespace MedicationControl.Service.API.Controllers.V10
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MedicationScheduleController"/> class.
 		/// </summary>
-		/// <param name="userHelper"><see cref="IUserHelper"/></param>
-		/// <param name="mediator"><see cref="IMediator"/></param>
-		/// <param name="logger"><see cref="ILogger"/></param>
-		/// <exception cref="ArgumentNullException">не задан входной параметр</exception>
+		/// <param name="userHelper"><see cref="IUserHelper"/>.</param>
+		/// <param name="mediator"><see cref="IMediator"/>.</param>
+		/// <param name="logger"><see cref="ILogger"/>.</param>
+		/// <exception cref="ArgumentNullException">Не задан один из входных параметров.</exception>
 		public MedicationScheduleController(
 			IUserHelper userHelper,
 			IMediator mediator,
@@ -39,11 +39,11 @@ namespace MedicationControl.Service.API.Controllers.V10
 		/// <summary>
 		/// Создание расписания приема лекарственного средства
 		/// </summary>
-		/// <param name="request"><inheritdoc cref="CreateMedicationScheduleDTO" path="/summary"/></param>
+		/// <param name="request"><inheritdoc cref="CreateMedicationScheduleDto" path="/summary"/></param>
 		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
 		/// <returns>ИД новой записи</returns>
 		[HttpPost]
-		public async Task<ActionResult<int>> CreateAsync(CreateMedicationScheduleDTO request, CancellationToken cancellationToken)
+		public async Task<ActionResult<int>> CreateAsync(CreateMedicationScheduleDto request, CancellationToken cancellationToken)
 		{
 			using (_ = base.BeginLoggingScope())
 			{
@@ -60,11 +60,11 @@ namespace MedicationControl.Service.API.Controllers.V10
 		/// <summary>
 		/// Изменение расписания приема лекарственного средства
 		/// </summary>
-		/// <param name="request"><inheritdoc cref="MedicationScheduleDTO" path="/summary"/></param>
+		/// <param name="request"><inheritdoc cref="MedicationScheduleDto" path="/summary"/></param>
 		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
 		/// <returns>ИД новой записи</returns>
 		[HttpPatch]
-		public async Task<IActionResult> UpdateAsync(MedicationScheduleDTO request, CancellationToken cancellationToken)
+		public async Task<IActionResult> UpdateAsync(MedicationScheduleDto request, CancellationToken cancellationToken)
 		{
 			using (_ = base.BeginLoggingScope())
 			{

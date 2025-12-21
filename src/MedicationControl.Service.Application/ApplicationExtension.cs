@@ -1,6 +1,8 @@
 ﻿using MedicationControl.Service.Application.Helper;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using MediatR;
+using MedicationControl.Service.Application.Mediatr.Behaviors;
 
 namespace MedicationControl.Service.Application;
 
@@ -28,6 +30,8 @@ public static class ApplicationExtension
 	{
 		services.AddMediatR(conf =>
 			conf.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
+		services.AddScoped(typeof(IPipelineBehavior<,>), typeof(UserPermissionCheckBehavior<,>));
 
 		return services;
 	}

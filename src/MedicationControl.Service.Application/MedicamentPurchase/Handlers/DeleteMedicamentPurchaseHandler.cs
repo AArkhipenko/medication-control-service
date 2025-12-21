@@ -1,5 +1,6 @@
 ﻿using AArkhipenko.Core.Logging;
 using MediatR;
+using MedicationControl.Service.Application.Common.Commands;
 using MedicationControl.Service.Application.MedicamentPurchase.Commands;
 using MedicationControl.Service.Application.MedicamentPurchase.Queries;
 using MedicationControl.Service.Domain.Repositories;
@@ -8,7 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace MedicationControl.Service.Application.MedicamentPurchase.Handlers;
 
 /// <summary>
-/// Выполнение запроса <see cref="DeleteMedicamentPurchaseCommand"/>
+/// Выполнение запроса <see cref="DeleteMedicamentPurchaseCommand"/>.
 /// </summary>
 internal sealed class DeleteMedicamentPurchaseHandler : LoggerWrapper, IRequestHandler<DeleteMedicamentPurchaseCommand>
 {
@@ -18,10 +19,10 @@ internal sealed class DeleteMedicamentPurchaseHandler : LoggerWrapper, IRequestH
 	/// <summary>
 	/// Initializes a new instance of the <see cref="DeleteMedicamentPurchaseHandler"/> class.
 	/// </summary>
-	/// <param name="repository"><see cref="IMedicamentPurchaseRepository"/></param>
-	/// <param name="mediator"><see cref="IMediator"/></param>
-	/// <param name="logger"><see cref="ILogger"/></param>
-	/// <exception cref="ArgumentNullException">Не задан входной параметр</exception>
+	/// <param name="repository"><see cref="IMedicamentPurchaseRepository"/>.</param>
+	/// <param name="mediator"><see cref="IMediator"/>.</param>
+	/// <param name="logger"><see cref="ILogger"/>.</param>
+	/// <exception cref="ArgumentNullException">Не задан один из входных параметров.</exception>
 	public DeleteMedicamentPurchaseHandler(
 		IMedicamentPurchaseRepository repository,
 		IMediator mediator,
@@ -40,6 +41,11 @@ internal sealed class DeleteMedicamentPurchaseHandler : LoggerWrapper, IRequestH
 		{
 			var model = await this._mediator.Send(
 				new GetMedicamentPurchaseQuery(request.ExternalUserId, request.MedicamentPurchaseId));
+
+			// Проверка прав доступа к данным
+			await this._mediator.Send(
+				new CheckUserDataPermissionCommand(request.ExternalUserId, model.PersonMedicamentId),
+				cancellationToken);
 
 			await this._repository.DeleteAsync(request.MedicamentPurchaseId, cancellationToken);
 		}

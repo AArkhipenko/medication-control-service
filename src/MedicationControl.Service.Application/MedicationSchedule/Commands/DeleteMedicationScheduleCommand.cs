@@ -1,33 +1,26 @@
 ﻿using MediatR;
-using MedicationControl.Service.Application.Common;
-using MedicationControl.Service.Application.MedicationSchedule.DTO;
+using MedicationControl.Service.Application.Common.Commands;
 
-namespace MedicationControl.Service.Application.MedicationSchedule.Commands
+namespace MedicationControl.Service.Application.MedicationSchedule.Commands;
+
+/// <summary>
+/// Запрос на удаление расписания приема лекарств.
+/// </summary>
+public sealed class DeleteMedicationScheduleCommand : UserBasedCommand, IRequest
 {
 	/// <summary>
-	/// Запрос на создание расписания приема лекарств
+	/// Initializes a new instance of the <see cref="DeleteMedicationScheduleCommand"/> class.
 	/// </summary>
-	/// <remarks>
-	/// Здесь реализована логика проверки добавления дублирующей записи, проверка по:
-	///		- лекарство для пользователя
-	///		- время приема лекарства
-	/// </remarks>
-    public class DeleteMedicationScheduleCommand : UserBasedCommand, IRequest
-    {
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DeleteMedicationScheduleCommand"/> class.
-		/// </summary>
-		/// <param name="externalUserId"><inheritdoc cref="UserBasedCommand.ExternalUserId" path="/summary"/></param>
-		/// <param name="medicationScheduleId"><inheritdoc cref="MedicationScheduleId" path="/summary"/></param>
-		public DeleteMedicationScheduleCommand(string externalUserId, int medicationScheduleId)
-			: base(externalUserId)
-		{
-			this.MedicationScheduleId = medicationScheduleId;
-		} 
+	/// <param name="externalUserId"><inheritdoc cref="UserBasedCommand.ExternalUserId" path="/summary"/></param>
+	/// <param name="medicationScheduleId"><inheritdoc cref="MedicationScheduleId" path="/summary"/></param>
+	public DeleteMedicationScheduleCommand(string externalUserId, int medicationScheduleId)
+		: base(externalUserId)
+	{
+		this.MedicationScheduleId = medicationScheduleId;
+	} 
 
-		/// <summary>
-		/// ИД записи для удаления
-		/// </summary>
-		public int MedicationScheduleId { get; }
-	}
+	/// <summary>
+	/// ИД записи для удаления.
+	/// </summary>
+	public int MedicationScheduleId { get; }
 }

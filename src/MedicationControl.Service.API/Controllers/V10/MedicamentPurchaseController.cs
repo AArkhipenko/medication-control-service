@@ -22,10 +22,10 @@ public class MedicamentPurchaseController : ApiAuthBaseController
 	/// <summary>
 	/// Initializes a new instance of the <see cref="MedicamentPurchaseController"/> class.
 	/// </summary>
-	/// <param name="userHelper"><see cref="IUserHelper"/></param>
-	/// <param name="mediator"><see cref="IMediator"/></param>
-	/// <param name="logger"><see cref="ILogger"/></param>
-	/// <exception cref="ArgumentNullException">не задан входной параметр</exception>
+	/// <param name="userHelper"><see cref="IUserHelper"/>.</param>
+	/// <param name="mediator"><see cref="IMediator"/>.</param>
+	/// <param name="logger"><see cref="ILogger"/>.</param>
+	/// <exception cref="ArgumentNullException">Не задан один из входных параметров.</exception>
 	public MedicamentPurchaseController(
 		IUserHelper userHelper,
 		IMediator mediator,

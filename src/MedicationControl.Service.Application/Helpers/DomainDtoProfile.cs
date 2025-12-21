@@ -17,11 +17,11 @@ namespace MedicationControl.Service.Application.Helper
 		public DomainDtoProfile()
 		{
 			// Лекарства, назначенные пользователю
-			CreateMap<DomainExt.PersonMedicament, PersonMedicamentExt.PersonMedicamentDTO>()
+			CreateMap<DomainExt.PersonMedicament, PersonMedicamentExt.PersonMedicamentDto>()
 				.ForMember(dto => dto.PersonMedicamentId, dto => dto.MapFrom(x => x.Id));
 
 			// Расписание приема лекарств
-			CreateMap<DomainExt.MedicationSchedule, MedicationScheduleExt.MedicationScheduleDTO>()
+			CreateMap<DomainExt.MedicationSchedule, MedicationScheduleExt.MedicationScheduleDto>()
 				.ForMember(dto => dto.MedicationScheduleId, dto => dto.MapFrom(x => x.Id));
 		}
 	}

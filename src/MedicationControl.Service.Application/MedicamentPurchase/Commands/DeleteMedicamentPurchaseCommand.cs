@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using MedicationControl.Service.Application.Common;
+using MedicationControl.Service.Application.Common.Commands;
 
 namespace MedicationControl.Service.Application.MedicamentPurchase.Commands;
 
@@ -20,7 +20,7 @@ public sealed class DeleteMedicamentPurchaseCommand : UserBasedCommand, IRequest
 	}
 
 	/// <summary>
-	/// ИД закупки лекарств
+	/// ИД закупки лекарств.
 	/// </summary>
 	public int MedicamentPurchaseId { get; }
 }
