@@ -6,97 +6,96 @@ using MedicationControl.Service.Application.MedicamentPurchase.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MedicationControl.Service.API.Controllers.V10
+namespace MedicationControl.Service.API.Controllers.V10;
+
+/// <summary>
+/// Контроллер для работы с закупками лекарств
+/// </summary>
+[ApiController]
+[ApiVersion("10", Deprecated = false)]
+[Route("medication-purchases/v{version:apiVersion}")]
+[Authorize("UserRole")]
+public class MedicamentPurchaseController : ApiAuthBaseController
 {
+	private readonly IUserHelper _userHelper;
+	private readonly IMediator _mediator;
 	/// <summary>
-	/// Контроллер для работы с закупками лекарств
+	/// Initializes a new instance of the <see cref="MedicamentPurchaseController"/> class.
 	/// </summary>
-	[ApiController]
-	[ApiVersion("10", Deprecated = false)]
-	[Route("medication-purchases/v{version:apiVersion}")]
-	[Authorize("UserRole")]
-	public class MedicamentPurchaseController : ApiAuthBaseController
+	/// <param name="userHelper"><see cref="IUserHelper"/></param>
+	/// <param name="mediator"><see cref="IMediator"/></param>
+	/// <param name="logger"><see cref="ILogger"/></param>
+	/// <exception cref="ArgumentNullException">не задан входной параметр</exception>
+	public MedicamentPurchaseController(
+		IUserHelper userHelper,
+		IMediator mediator,
+		ILogger<MedicamentPurchaseController> logger)
+		: base(logger)
 	{
-		private readonly IUserHelper _userHelper;
-		private readonly IMediator _mediator;
-		/// <summary>
-		/// Initializes a new instance of the <see cref="MedicamentPurchaseController"/> class.
-		/// </summary>
-		/// <param name="userHelper"><see cref="IUserHelper"/></param>
-		/// <param name="mediator"><see cref="IMediator"/></param>
-		/// <param name="logger"><see cref="ILogger"/></param>
-		/// <exception cref="ArgumentNullException">не задан входной параметр</exception>
-		public MedicamentPurchaseController(
-			IUserHelper userHelper,
-			IMediator mediator,
-			ILogger<MedicamentPurchaseController> logger)
-			: base(logger)
+		this._userHelper = userHelper ?? throw new ArgumentNullException(nameof(userHelper));
+		this._mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+	}
+
+	/// <summary>
+	/// Создание закупки лекарства
+	/// </summary>
+	/// <param name="request"><inheritdoc cref="CreateMedicamentPurchaseDto" path="/summary"/></param>
+	/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
+	/// <returns>ИД новой записи</returns>
+	[HttpPost]
+	public async Task<ActionResult<int>> CreateAsync(CreateMedicamentPurchaseDto request, CancellationToken cancellationToken)
+	{
+		using (_ = base.BeginLoggingScope())
 		{
-			this._userHelper = userHelper ?? throw new ArgumentNullException(nameof(userHelper));
-			this._mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+			var user = await this._userHelper.GetUserAsync(cancellationToken);
+
+			var id = await this._mediator.Send(
+				new CreateMedicamentPurchaseCommand(user.ExternalId, request),
+				cancellationToken);
+
+			return Ok(id);
 		}
+	}
 
-		/// <summary>
-		/// Создание закупки лекарства
-		/// </summary>
-		/// <param name="request"><inheritdoc cref="CreateMedicamentPurchaseDTO" path="/summary"/></param>
-		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
-		/// <returns>ИД новой записи</returns>
-		[HttpPost]
-		public async Task<ActionResult<int>> CreateAsync(CreateMedicamentPurchaseDTO request, CancellationToken cancellationToken)
+	/// <summary>
+	/// Изменение закупки лекарства
+	/// </summary>
+	/// <param name="request"><inheritdoc cref="MedicamentPurchaseDto" path="/summary"/></param>
+	/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
+	/// <returns>Ничего</returns>
+	[HttpPatch]
+	public async Task<IActionResult> UpdateAsync(MedicamentPurchaseDto request, CancellationToken cancellationToken)
+	{
+		using (_ = base.BeginLoggingScope())
 		{
-			using (_ = base.BeginLoggingScope())
-			{
-				var user = await this._userHelper.GetUserAsync(cancellationToken);
+			var user = await this._userHelper.GetUserAsync(cancellationToken);
 
-				var id = await this._mediator.Send(
-					new CreateMedicamentPurchaseCommand(user.ExternalId, request),
-					cancellationToken);
+			await this._mediator.Send(
+				new UpdateMedicamentPurchaseCommand(user.ExternalId, request),
+				cancellationToken);
 
-				return Ok(id);
-			}
+			return NoContent();
 		}
+	}
 
-		/// <summary>
-		/// Изменение закупки лекарства
-		/// </summary>
-		/// <param name="request"><inheritdoc cref="MedicamentPurchaseDTO" path="/summary"/></param>
-		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
-		/// <returns>Ничего</returns>
-		[HttpPatch]
-		public async Task<IActionResult> UpdateAsync(MedicamentPurchaseDTO request, CancellationToken cancellationToken)
+	/// <summary>
+	/// Удаление закупки лекарства
+	/// </summary>
+	/// <param name="id">ИД закупки лекарства</param>
+	/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
+	/// <returns>Ничего</returns>
+	[HttpDelete("{id}")]
+	public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
+	{
+		using (_ = base.BeginLoggingScope())
 		{
-			using (_ = base.BeginLoggingScope())
-			{
-				var user = await this._userHelper.GetUserAsync(cancellationToken);
+			var user = await this._userHelper.GetUserAsync(cancellationToken);
 
-				var id = await this._mediator.Send(
-					new CreateMedicamentPurchaseCommand(user.ExternalId, request),
-					cancellationToken);
+			await this._mediator.Send(
+				new DeleteMedicamentPurchaseCommand(user.ExternalId, id),
+				cancellationToken);
 
-				return NoContent();
-			}
-		}
-
-		/// <summary>
-		/// Удаление закупки лекарства
-		/// </summary>
-		/// <param name="id">ИД закупки лекарства</param>
-		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
-		/// <returns>Ничего</returns>
-		[HttpDelete("{id}")]
-		public async Task<IActionResult> DeleteAsync(int id, CancellationToken cancellationToken)
-		{
-			using (_ = base.BeginLoggingScope())
-			{
-				var user = await this._userHelper.GetUserAsync(cancellationToken);
-
-				await this._mediator.Send(
-					new DeleteMedicamentPurchaseCommand(user.ExternalId, id),
-					cancellationToken);
-
-				return NoContent();
-			}
+			return NoContent();
 		}
 	}
 }
