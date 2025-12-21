@@ -5,51 +5,44 @@ using MedicationControl.Service.Application.PersonMedicament.Queries;
 using MedicationControl.Service.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 
-using DomainExt = MedicationControl.Service.Domain.Models;
+namespace MedicationControl.Service.Application.PersonMedicament.Handlers;
 
-namespace MedicationControl.Service.Application.PersonMedicament.Handlers
+/// <summary>
+/// Выполнение <see cref="GetPersonMedicamentQuery"/>.
+/// </summary>
+internal sealed class GetPersonMedicamentHandler : LoggerWrapper, IRequestHandler<GetPersonMedicamentQuery, PersonMedicamentDto>
 {
+	private readonly IPersonMedicamentRepository _repository;
+
 	/// <summary>
-	/// Выполнение <see cref="GetPersonMedicamentQuery"/>
+	/// Initializes a new instance of the <see cref="GetPersonMedicamentHandler"/> class.
 	/// </summary>
-	internal class GetPersonMedicamentHandler : LoggerWrapper, IRequestHandler<GetPersonMedicamentQuery, PersonMedicamentDTO>
+	/// <param name="repository"><see cref="IPersonMedicamentRepository"/>.</param>
+	/// <param name="logger"><see cref="ILogger"/>.</param>
+	/// <exception cref="ArgumentNullException">Не задан один из входных параметров.</exception>
+	public GetPersonMedicamentHandler(
+		IPersonMedicamentRepository repository,
+		ILogger<GetPersonMedicamentHandler> logger)
+		: base(logger)
 	{
-		private readonly IPersonMedicamentRepository _repository;
+		this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
+	}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="GetPersonMedicamentHandler"/> class.
-		/// </summary>
-		/// <param name="repository"><see cref="IPersonMedicamentRepository"/></param>
-		/// <param name="logger"><see cref="ILogger"/></param>
-		/// <exception cref="ArgumentNullException">Не задан один из входных параметров</exception>
-		public GetPersonMedicamentHandler(
-			IPersonMedicamentRepository repository,
-			ILogger<GetPersonMedicamentHandler> logger)
-			: base(logger)
+	/// <inheritdoc/>
+	public async Task<PersonMedicamentDto> Handle(GetPersonMedicamentQuery request, CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		using (_ = base.BeginLoggingScope())
 		{
-			this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
-		}
+			var member = await this._repository.GetAsync(request.PersonMedicamentId, cancellationToken);
 
-		/// <inheritdoc/>
-		public async Task<PersonMedicamentDTO> Handle(GetPersonMedicamentQuery request, CancellationToken cancellationToken)
-		{
-			cancellationToken.ThrowIfCancellationRequested();
-			using (_ = base.BeginLoggingScope())
+			return new PersonMedicamentDto
 			{
-				var member = await this._repository.GetAsync(request.PersonMedicamentId, cancellationToken);
-				if (member.ExternalUserId != request.ExternalUserId)
-				{
-					throw new UnauthorizedAccessException("Попытка получения доступа к данным другого пользователя");
-				}
-
-				return new PersonMedicamentDTO
-				{
-					PersonMedicamentId = member.Id,
-					MedicamentTypeId = member.MedicamentTypeId,
-					StartDate = member.StartDate,
-					EndDate = member.EndDate
-				};
-			}
+				PersonMedicamentId = member.Id,
+				MedicamentTypeId = member.MedicamentTypeId,
+				StartDate = member.StartDate,
+				EndDate = member.EndDate
+			};
 		}
 	}
 }

@@ -5,57 +5,67 @@ using MedicationControl.Service.Application.PersonMedicament.Commands;
 using MedicationControl.Service.Application.PersonMedicament.Queries;
 using MedicationControl.Service.Domain.Repositories;
 using Microsoft.Extensions.Logging;
-using System.Reflection;
 
 using DomainExt = MedicationControl.Service.Domain.Models;
 
-namespace MedicationControl.Service.Application.PersonMedicament.Handlers
+namespace MedicationControl.Service.Application.PersonMedicament.Handlers;
+
+/// <summary>
+/// Выполнение <see cref="UpdatePersonMedicamentCommand"/>.
+/// </summary>
+internal sealed class UpdatePersonMedicamentHandler : LoggerWrapper, IRequestHandler<UpdatePersonMedicamentCommand>
 {
+	private readonly IPersonMedicamentRepository _repository;
+	private readonly IMapper _mapper;
+	private readonly IMediator _mediator;
+
 	/// <summary>
-	/// Выполнение <see cref="UpdatePersonMedicamentCommand"/>
+	/// Initializes a new instance of the <see cref="UpdatePersonMedicamentHandler"/> class.
 	/// </summary>
-	internal class UpdatePersonMedicamentHandler : LoggerWrapper, IRequestHandler<UpdatePersonMedicamentCommand>
-    {
-		private readonly IPersonMedicamentRepository _repository;
-		private readonly IMapper _mapper;
-		private readonly IMediator _mediator;
+	/// <param name="repository"><see cref="IPersonMedicamentRepository"/>.</param>
+	/// <param name="mapper"><see cref="IMapper"/>.</param>
+	/// <param name="mediator"><see cref="IMediator"/>.</param>
+	/// <param name="logger"><see cref="ILogger"/>.</param>
+	/// <exception cref="ArgumentNullException">Не задан один из входных параметров.</exception>
+	public UpdatePersonMedicamentHandler(
+		IPersonMedicamentRepository repository,
+		IMapper mapper,
+		IMediator mediator,
+		ILogger<UpdatePersonMedicamentHandler> logger)
+		: base(logger)
+	{
+		this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
+		this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+		this._mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+	}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="UpdatePersonMedicamentHandler"/> class.
-		/// </summary>
-		/// <param name="repository"><see cref="IPersonMedicamentRepository"/></param>
-		/// <param name="mapper"><see cref="IMapper"/></param>
-		/// <param name="mediator"><see cref="IMediator"/></param>
-		/// <param name="logger"><see cref="ILogger"/></param>
-		/// <exception cref="ArgumentNullException">Не задан один из входных параметров</exception>
-		public UpdatePersonMedicamentHandler(
-			IPersonMedicamentRepository repository,
-			IMapper mapper,
-			IMediator mediator,
-			ILogger<UpdatePersonMedicamentHandler> logger)
-			: base(logger)
+	/// <inheritdoc/>
+	public async Task Handle(UpdatePersonMedicamentCommand request, CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		using (_ = base.BeginLoggingScope())
 		{
-			this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
-			this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-			this._mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-		}
 
-		/// <inheritdoc/>
-		public async Task Handle(UpdatePersonMedicamentCommand request, CancellationToken cancellationToken)
-		{
-			cancellationToken.ThrowIfCancellationRequested();
-			using (_ = base.BeginLoggingScope())
+			var member = await this._mediator.Send(
+				new GetPersonMedicamentQuery(request.ExternalUserId, request.PersonMedicamentId),
+				cancellationToken);
+			if(member.MedicamentTypeId != request.Request.MedicamentTypeId)
 			{
-				var model = this._mapper.Map<DomainExt.PersonMedicament>(request);
-
-				var member = await this._mediator.Send(new GetPersonMedicamentQuery(request.ExternalUserId, model.Id));
-				if(member.MedicamentTypeId != model.MedicamentTypeId)
-				{
-					throw new UnauthorizedAccessException("Изменение лекарственного средства недопустимо");
-				}
-
-				await this._repository.UpdateAsync(model, cancellationToken);
+				Logger.LogError(
+					"""
+					Попытка изменения лекарственного средства в связи. 
+					ИД пользователя: {requestExternalUserId}. 
+					ИД лекарственного средства: {memberMedicamentId}. 
+					ИД новой лекарственного средства: {requestMedicamentId}.
+					""",
+					request.ExternalUserId,
+					member.MedicamentTypeId,
+					request.Request.MedicamentTypeId);
+				throw new UnauthorizedAccessException("Изменение лекарственного средства недопустимо.");
 			}
+
+			var model = this._mapper.Map<DomainExt.PersonMedicament>(request);
+			await this._repository.UpdateAsync(model, cancellationToken);
 		}
 	}
 }

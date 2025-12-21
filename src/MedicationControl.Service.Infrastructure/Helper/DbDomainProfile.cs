@@ -24,8 +24,8 @@ namespace MedicationControl.Service.Infrastructure.Helper
 			CreateMap<TableExt.MedicationSchedule, DomainExt.MedicationSchedule>();
 
 			// Закупка лекарств
-			CreateMap<DomainExt.MedicationSchedule, TableExt.MedicationSchedule>();
-			CreateMap<TableExt.MedicationSchedule, DomainExt.MedicationSchedule>();
+			CreateMap<DomainExt.MedicamentPurchase, TableExt.MedicamentPurchase>();
+			CreateMap<TableExt.MedicamentPurchase, DomainExt.MedicamentPurchase>();
 		}
     }
 }

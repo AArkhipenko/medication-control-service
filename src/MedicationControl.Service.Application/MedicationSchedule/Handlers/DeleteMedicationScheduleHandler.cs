@@ -1,56 +1,54 @@
-﻿using AArkhipenko.Core.Exceptions;
-using AArkhipenko.Core.Logging;
-using AutoMapper;
+﻿using AArkhipenko.Core.Logging;
 using MediatR;
+using MedicationControl.Service.Application.Common.Commands;
 using MedicationControl.Service.Application.MedicationSchedule.Commands;
 using MedicationControl.Service.Application.MedicationSchedule.Queries;
 using MedicationControl.Service.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 
-using DomainExt = MedicationControl.Service.Domain.Models;
+namespace MedicationControl.Service.Application.MedicationSchedule.Handlers;
 
-namespace MedicationControl.Service.Application.MedicationSchedule.Handlers
+/// <summary>
+/// Выполнение <see cref="DeleteMedicationScheduleCommand"/>.
+/// </summary>
+internal sealed class DeleteMedicationScheduleHandler : LoggerWrapper, IRequestHandler<DeleteMedicationScheduleCommand>
 {
+	private readonly IMedicationScheduleRepository _repository;
+	private readonly IMediator _mediator;
+
 	/// <summary>
-	/// Выполнение запроса <see cref="DeleteMedicationScheduleCommand"/>
+	/// Initializes a new instance of the <see cref="DeleteMedicationScheduleHandler"/> class.
 	/// </summary>
-	internal class DeleteMedicationScheduleHandler : LoggerWrapper, IRequestHandler<DeleteMedicationScheduleCommand>
+	/// <param name="repository"><see cref="IMedicationScheduleRepository"/>.</param>
+	/// <param name="mediator"><see cref="IMediator"/>.</param>
+	/// <param name="logger"><see cref="ILogger"/>.</param>
+	/// <exception cref="ArgumentNullException">Не задан один из входных параметров.</exception>
+	public DeleteMedicationScheduleHandler(
+		IMedicationScheduleRepository repository,
+		IMediator mediator,
+		ILogger<DeleteMedicationScheduleHandler> logger)
+		: base(logger)
 	{
-		private readonly IMedicationScheduleRepository _repository;
-		private readonly IMapper _mapper;
-		private readonly IMediator _mediator;
+		this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
+		this._mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+	}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="DeleteMedicationScheduleHandler"/> class.
-		/// </summary>
-		/// <param name="repository"><see cref="IMedicationScheduleRepository"/></param>
-		/// <param name="mapper"><see cref="IMapper"/></param>
-		/// <param name="mediator"><see cref="IMediator"/></param>
-		/// <param name="logger"><see cref="ILogger"/></param>
-		public DeleteMedicationScheduleHandler(
-			IMedicationScheduleRepository repository,
-			IMapper mapper,
-			IMediator mediator,
-			ILogger<DeleteMedicationScheduleHandler> logger)
-			: base(logger)
+	/// <inheritdoc/>
+	public async Task Handle(DeleteMedicationScheduleCommand request, CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		using (_ = base.BeginLoggingScope())
 		{
-			this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
-			this._mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-			this._mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-		}
+			var member = await this._mediator.Send(
+				new GetMedicationScheduleQuery(request.ExternalUserId, request.MedicationScheduleId),
+				cancellationToken);
 
-		/// <inheritdoc/>
-		public async Task Handle(DeleteMedicationScheduleCommand request, CancellationToken cancellationToken)
-		{
-			cancellationToken.ThrowIfCancellationRequested();
-			using (_ = base.BeginLoggingScope())
-			{
-				var member = await this._mediator.Send(
-					new GetMedicationScheduleQuery(request.ExternalUserId, request.MedicationScheduleId),
-					cancellationToken);
+			// Проверка прав доступа к данным
+			await this._mediator.Send(
+				new CheckUserDataPermissionCommand(request.ExternalUserId, member.PersonMedicamentId),
+				cancellationToken);
 
-				await this._repository.DeleteAsync(request.MedicationScheduleId, cancellationToken);
-			}
+			await this._repository.DeleteAsync(request.MedicationScheduleId, cancellationToken);
 		}
 	}
 }

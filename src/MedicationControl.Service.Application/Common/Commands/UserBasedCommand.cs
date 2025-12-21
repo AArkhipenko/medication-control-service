@@ -1,4 +1,4 @@
-﻿namespace MedicationControl.Service.Application.Common
+﻿namespace MedicationControl.Service.Application.Common.Commands
 {
 	/// <summary>
 	/// Шаблон запроса, в котором обязательно указание ИД пользователя

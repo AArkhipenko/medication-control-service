@@ -26,7 +26,7 @@ namespace MedicationControl.Service.API.Controllers.V10
 		/// <param name="userHelper"><see cref="IUserHelper"/></param>
 		/// <param name="mediator"><see cref="IMediator"/></param>
 		/// <param name="logger"><see cref="ILogger"/></param>
-		/// <exception cref="ArgumentNullException">не задан входной параметр</exception>
+		/// <exception cref="ArgumentNullException">Не задан один из входных параметров.</exception>
 		public PersonMedicamentController(
 			IUserHelper userHelper,
 			IMediator mediator,
@@ -40,11 +40,11 @@ namespace MedicationControl.Service.API.Controllers.V10
 		/// <summary>
 		/// Создание связи пользователя с лекарственным средством
 		/// </summary>
-		/// <param name="request"><inheritdoc cref="CreatePersonMedicamentDTO" path="/summary"/></param>
+		/// <param name="request"><inheritdoc cref="CreatePersonMedicamentDto" path="/summary"/></param>
 		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
 		/// <returns>ИД новой записи</returns>
 		[HttpPost]
-		public async Task<ActionResult<int>> CreateAsync(CreatePersonMedicamentDTO request, CancellationToken cancellationToken)
+		public async Task<ActionResult<int>> CreateAsync(CreatePersonMedicamentDto request, CancellationToken cancellationToken)
 		{
 			using (_ = base.BeginLoggingScope())
 			{
@@ -61,11 +61,11 @@ namespace MedicationControl.Service.API.Controllers.V10
 		/// <summary>
 		/// Обновление связи пользователя с лекарственным средством
 		/// </summary>
-		/// <param name="request"><inheritdoc cref="PersonMedicamentDTO" path="/summary"/></param>
+		/// <param name="request"><inheritdoc cref="PersonMedicamentDto" path="/summary"/></param>
 		/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
 		/// <returns>Ничего</returns>
 		[HttpPatch]
-		public async Task<IActionResult> UpdateAsync(PersonMedicamentDTO request, CancellationToken cancellationToken)
+		public async Task<IActionResult> UpdateAsync(PersonMedicamentDto request, CancellationToken cancellationToken)
 		{
 			using (_ = base.BeginLoggingScope())
 			{
@@ -109,7 +109,7 @@ namespace MedicationControl.Service.API.Controllers.V10
 		/// person-medicaments/v10/list#GET
 		/// </remarks>
 		[HttpGet("list")]
-		public async Task<ActionResult<IEnumerable<PersonMedicamentDTO>>> GetListAsync(CancellationToken cancellationToken)
+		public async Task<ActionResult<IEnumerable<PersonMedicamentDto>>> GetListAsync(CancellationToken cancellationToken)
 		{
 			using (_ = base.BeginLoggingScope())
 			{
