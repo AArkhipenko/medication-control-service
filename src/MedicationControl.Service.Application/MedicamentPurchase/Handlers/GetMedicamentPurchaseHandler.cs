@@ -22,13 +22,11 @@ internal sealed class GetMedicamentPurchaseHandler : LoggerWrapper, IRequestHand
 	/// Initializes a new instance of the <see cref="GetMedicamentPurchaseHandler"/> class.
 	/// </summary>
 	/// <param name="repository"><see cref="IMedicamentPurchaseRepository"/>.</param>
-	/// <param name="mapper"><see cref="IMapper"/>.</param>
 	/// <param name="mediator"><see cref="IMediator"/>.</param>
 	/// <param name="logger"><see cref="ILogger"/>.</param>
 	/// <exception cref="ArgumentNullException">Не задан один из входных параметров.</exception>
 	public GetMedicamentPurchaseHandler(
 		IMedicamentPurchaseRepository repository,
-		IMapper mapper,
 		IMediator mediator,
 		ILogger<CreateMedicamentPurchaseHandler> logger)
 		: base(logger)

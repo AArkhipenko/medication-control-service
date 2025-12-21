@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MedicationControl.Service.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 using DomainExt = MedicationControl.Service.Domain.Models;
@@ -83,6 +84,24 @@ internal sealed class MedicamentPurchaseRepository : GeneralRepository<TableExt.
 
 			this._context.MedicamentPurchases.Remove(member);
 			await this._context.SaveChangesAsync(cancellationToken);
+		}
+	}
+
+	/// <inheritdoc/>
+	public async Task<IEnumerable<DomainExt.MedicamentPurchase>> GetListByUserAsync(string externalUserId, CancellationToken cancellationToken)
+	{
+		using (_ = base.BeginLoggingScope())
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			
+			var members = await (
+				from person in this._context.PersonMedicaments
+				join purchase in this._context.MedicamentPurchases on person.Id equals purchase.PersonMedicamentId
+				where person.ExternalUserId == externalUserId
+				select purchase)
+				.ToListAsync(cancellationToken);
+
+			return members.Select(x => this._mapper.Map<DomainExt.MedicamentPurchase>(x));
 		}
 	}
 }

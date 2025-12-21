@@ -3,6 +3,7 @@ using Asp.Versioning;
 using MediatR;
 using MedicationControl.Service.Application.MedicamentPurchase.Commands;
 using MedicationControl.Service.Application.MedicamentPurchase.DTO;
+using MedicationControl.Service.Application.MedicamentPurchase.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -96,6 +97,31 @@ public class MedicamentPurchaseController : ApiAuthBaseController
 				cancellationToken);
 
 			return NoContent();
+		}
+	}
+
+	/// <summary>
+	/// Получение списка закупок лекарств.
+	/// </summary>
+	/// <param name="cancellationToken">Токен отмены.</param>
+	/// <returns>Список закупок лекарственных средств пользователя.</returns>
+	/// <example>
+	/// /medication-purchases/v10/list#GET
+	/// </example>
+	[HttpGet("list")]
+	public async Task<ActionResult<IEnumerable<MedicamentPurchaseDto>>> GetListAsync(CancellationToken cancellationToken)
+	{
+		using (_ = base.BeginLoggingScope())
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			
+			var user = await this._userHelper.GetUserAsync(cancellationToken);
+
+			var list = await this._mediator.Send(
+				new GetMedicamentPurchaseListQuery(user.ExternalId),
+				cancellationToken);
+
+			return Ok(list);
 		}
 	}
 }

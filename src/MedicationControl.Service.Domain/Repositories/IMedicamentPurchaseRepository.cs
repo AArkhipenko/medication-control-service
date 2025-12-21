@@ -40,10 +40,20 @@ public interface IMedicamentPurchaseRepository
 	/// <summary>
 	/// Удаление записи
 	/// </summary>
-	/// <param name="medicamentPerchaseId">ИД закупки лекарств</param>
+	/// <param name="medicamentPurchaseId">ИД закупки лекарств</param>
 	/// <param name="cancellationToken"><inheritdoc cref="CancellationToken" path="/summary"/></param>
 	/// <returns>Ничего</returns>
 	Task DeleteAsync(
-		int medicamentPerchaseId,
+		int medicamentPurchaseId,
+		CancellationToken cancellationToken);
+
+	/// <summary>
+	/// Получение списка закупок лекарств для пользователя.
+	/// </summary>
+	/// <param name="externalUserId">ИД пользователя во внешней системе.</param>
+	/// <param name="cancellationToken">Токен отмены.</param>
+	/// <returns>Список <see cref="MedicamentPurchase"/>.</returns>
+	Task<IEnumerable<MedicamentPurchase>> GetListByUserAsync(
+		string externalUserId,
 		CancellationToken cancellationToken);
 }
